@@ -1,0 +1,57 @@
+/* Location map placeholder — swaps for the live Mapbox view later.
+   Palette: #1D1915, #3A3126, #695441, #C1AA90 */
+
+.location-map {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 440px;
+    border: 1px solid rgba(193, 170, 144, 0.4);
+    background: #EDE6DF;
+    overflow: hidden;
+}
+
+.location-map__grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(58, 49, 38, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(58, 49, 38, 0.08) 1px, transparent 1px);
+    background-size: 44px 44px;
+}
+
+.location-map__pin {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 58px;
+    height: 58px;
+    border-radius: 50% 50% 50% 4px;
+    transform: rotate(-45deg);
+    background: #1D1915;
+    border: 2px solid #C1AA90;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+}
+
+.location-map__pin span {
+    transform: rotate(45deg);
+    color: #C1AA90;
+    font: 18px Georgia, serif;
+    letter-spacing: 1px;
+}
+
+.location-map__note {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(520px, 86%);
+    margin: 0;
+    padding: 12px 18px;
+    background: rgba(252, 250, 248, 0.94);
+    border: 1px solid rgba(193, 170, 144, 0.35);
+    color: #695441;
+    font: 10px/1.7 Arial, sans-serif;
+    letter-spacing: 0.5px;
+    text-align: center;
+}

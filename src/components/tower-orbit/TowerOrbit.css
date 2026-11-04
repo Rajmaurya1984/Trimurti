@@ -1,0 +1,168 @@
+/* Tower orbit — full-bleed image-sequence stage (see TowerOrbit.jsx).
+   Palette: #1D1915, #3A3126, #695441, #C1AA90 */
+
+.tower-orbit {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #1D1915;
+    cursor: grab;
+    /* Vertical page scroll still works on touch; horizontal drags rotate. */
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    outline-offset: -3px;
+}
+
+.tower-orbit.is-dragging {
+    cursor: grabbing;
+}
+
+.tower-orbit:focus-visible {
+    outline: 2px solid #C1AA90;
+}
+
+.tower-orbit__canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* ---- loading overlay ---- */
+
+.tower-orbit__loader {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background: #1D1915;
+    color: #C1AA90;
+    transition: opacity .5s ease, visibility 0s linear .5s;
+    pointer-events: none;
+}
+
+.tower-orbit.is-ready .tower-orbit__loader {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.tower-orbit__loader-value {
+    font: 400 clamp(40px, 6vw, 84px) Georgia, serif;
+    letter-spacing: -1px;
+    color: #FCFAF8;
+}
+
+.tower-orbit__loader-label {
+    font: 9px Arial, sans-serif;
+    letter-spacing: 2.5px;
+    color: rgba(193, 170, 144, 0.75);
+}
+
+.tower-orbit__loader-bar {
+    width: min(260px, 60vw);
+    height: 1px;
+    background: rgba(193, 170, 144, 0.22);
+}
+
+.tower-orbit__loader-bar i {
+    display: block;
+    height: 100%;
+    background: #C1AA90;
+    transition: width .2s ease;
+}
+
+/* ---- HUD ---- */
+
+.tower-orbit__hud {
+    position: absolute;
+    inset: auto 4% 84px;
+    z-index: 1;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 18px;
+    color: #C1AA90;
+    pointer-events: none;
+}
+
+.tower-orbit__angle {
+    font: 400 clamp(26px, 3vw, 44px) Georgia, serif;
+    letter-spacing: -0.5px;
+    color: #FCFAF8;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+}
+
+.tower-orbit__hint {
+    font: 9px Arial, sans-serif;
+    letter-spacing: 2.5px;
+    color: rgba(193, 170, 144, 0.85);
+    transition: opacity .6s ease;
+}
+
+.tower-orbit__hint.is-spent {
+    opacity: 0;
+}
+
+.tower-orbit__counter {
+    font: 10px Arial, sans-serif;
+    letter-spacing: 1.5px;
+    color: rgba(193, 170, 144, 0.7);
+}
+
+.tower-orbit__reset {
+    padding: 10px 14px;
+    border: 1px solid rgba(193, 170, 144, 0.35);
+    border-radius: 3px;
+    background: rgba(58, 49, 38, 0.6);
+    color: #C1AA90;
+    font: 9px Arial, sans-serif;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.tower-orbit__reset:hover,
+.tower-orbit__reset:focus-visible {
+    color: #1D1915;
+    border-color: #C1AA90;
+    background: #C1AA90;
+}
+
+.tower-orbit__reset:focus-visible {
+    outline: 2px solid #C1AA90;
+    outline-offset: 3px;
+}
+
+/* ---- responsive ---- */
+
+@media (max-width: 700px) {
+    .tower-orbit__hud {
+        inset: auto 22px 70px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .tower-orbit__angle {
+        font-size: 24px;
+    }
+
+    .tower-orbit__hint {
+        order: 3;
+        flex-basis: 100%;
+        text-align: center;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tower-orbit__loader,
+    .tower-orbit__hint,
+    .tower-orbit__loader-bar i {
+        transition: none;
+    }
+}

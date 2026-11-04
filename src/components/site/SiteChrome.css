@@ -1,0 +1,453 @@
+/* Shared site chrome — floating brand (top-left), the fixed bottom pill
+   dock (navigation) and the footer, used by every page.
+   Palette: #1D1915, #3A3126, #695441, #C1AA90 */
+
+/* ---- floating brand ---- */
+
+.site-group {
+    view-transition-name: site-group;
+    position: fixed;
+    z-index: 100015;
+    top: max(20px, env(safe-area-inset-top));
+    right: max(4%, env(safe-area-inset-right));
+    bottom: auto;
+    box-sizing: content-box;
+    width: auto;
+    height: clamp(60px, calc(13 * var(--viewport-height)), 118px);
+    max-width: 180px;
+    max-height: 118px;
+    padding: 10px 12px 12px;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+/* Tour exit controls sit below the group mark instead of covering it. */
+
+@media (max-width: 1024px) and (orientation: landscape), (max-height: 600px) and (orientation: landscape) and (pointer: coarse) {
+    .site-group {
+        top: max(12px, env(safe-area-inset-top));
+        right: max(16px, env(safe-area-inset-right));
+        bottom: auto;
+        height: clamp(44px, calc(13 * var(--viewport-height)), 70px);
+        padding: 6px 8px 8px;
+
+    }
+    /* .window-view .window-view__close,
+    .amenities-page .amenities-back { top: max(68px, calc(56px + env(safe-area-inset-top))); } */
+}
+
+.site-brand {
+    --brand-height: clamp(40px, calc(13.23 * var(--viewport-height)), 90px);
+    view-transition-name: site-brand;
+    display: block;
+    padding: calc(var(--brand-height) * .111) calc(var(--brand-height) * .156);
+    margin-top: calc(var(--brand-height) * -.111);
+    margin-left: calc(var(--brand-height) * -.156);
+    border-radius: calc(var(--brand-height) * .2);
+    backdrop-filter: blur(24px) saturate(120%);
+    -webkit-backdrop-filter: blur(24px) saturate(120%);
+    position: fixed;
+    z-index: 100015;
+    top: max(26px, env(safe-area-inset-top));
+    left: max(4%, env(safe-area-inset-left));
+    color: #C1AA90;
+    text-decoration: none;
+    font: 19px Georgia, serif;
+    letter-spacing: 3px;
+    white-space: nowrap;
+    text-shadow: 0 2px 14px rgba(29, 25, 21, 0.7);
+    /* Capture the frosted panel and logo together during page transitions. */
+}
+
+.site-brand::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border: 1px solid rgba(255, 255, 255, .48);
+    border-radius: calc(var(--brand-height) * .2);
+    background: rgba(245, 239, 235, .48);
+    box-shadow:
+        0 8px 28px rgba(0, 0, 0, .14),
+        inset 0 1px 1px rgba(255, 255, 255, .9),
+        inset 1px 0 1px rgba(255, 255, 255, .55),
+        inset 0 -1px 2px rgba(255, 255, 255, .35);
+    pointer-events: none;
+}
+
+.site-brand img {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: auto;
+    height: var(--brand-height);
+    max-height: none;
+    object-fit: contain;
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .site-brand::before { background: rgba(245, 239, 235, .88); }
+}
+.site-brand b {
+    color: #C1AA90;
+    font-size: 34px;
+}
+
+.site-brand small {
+    display: block;
+    margin-left: 42px;
+    font: 6px Arial, sans-serif;
+    letter-spacing: 2px;
+    color: rgba(193, 170, 144, 0.75);
+}
+
+.site-brand:focus-visible {
+    outline: 2px solid #C1AA90;
+    outline-offset: 4px;
+}
+
+/* ---- bottom pill dock ---- */
+
+.site-dock {
+    view-transition-name: site-dock;
+    position: fixed;
+    z-index: 100020;
+    left: 50%;
+    bottom: 14px;
+    transform: translateX(-50%);
+}
+
+.site-dock__list {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    margin: 0;
+    padding: 0px 14px;
+    padding-right: 40px;
+    list-style: none;
+    /* background: #1D1915; */
+    background: rgba(29, 25, 21, 0.75); 
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px); /* Crucial for Safari support */
+    border: 1px solid rgba(193, 170, 144, 0.22);
+    border-radius: 999px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+}
+
+.site-dock__list > li {
+    display: flex;
+}
+
+.site-dock__item {
+    position: relative;
+    display: block;
+    flex: 1 1 auto;
+    width: 76px;
+    height: 58px;
+    color: rgba(193, 170, 144, 0.65);
+    text-decoration: none;
+    border-radius: 999px;
+    transition: color 0.2s ease;
+}
+
+.site-dock__item:hover {
+    color: #C1AA90;
+}
+
+/* Icon and label are absolutely placed so the active circle can break out
+   of the pill without shifting the row. */
+.site-dock__icon {
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: 0 0 0 transparent;
+    transform: translateX(-50%);
+    transition:
+        top 0.6s cubic-bezier(0.45, 0, 0.2, 1),
+        width 0.6s cubic-bezier(0.45, 0, 0.2, 1),
+        height 0.6s cubic-bezier(0.45, 0, 0.2, 1),
+        border-color 0.6s ease,
+        box-shadow 0.6s ease,
+        background 0.6s ease;
+}
+
+.site-dock__icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.site-dock__label {
+    position: absolute;
+    right: 0;
+    bottom: 8px;
+    left: 0;
+    font: 9px Arial, sans-serif;
+    letter-spacing: 1px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+/* Active item: raised circle with a gold ring — the mockup's "cutout".
+   The circle background matches the pill so it reads as a notch; it pokes
+   ~13px above the pill's top edge (item top is 10px below the pill edge,
+   circle top is -24px above the item). */
+.site-dock__item.is-active {
+    color: #FCFAF8;
+}
+
+.site-dock__item.is-active .site-dock__icon {
+    top: -24px;
+    width: 56px;
+    padding: 5px;
+    height: 56px;
+    background: #1D1915;
+    border: 3px solid #C1AA90;
+    border-radius: 50%;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.55);
+}
+
+.site-dock__item:focus-visible {
+    outline: 2px solid #C1AA90;
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .site-dock__item,
+    .site-dock__icon,
+    .page-pager__btn,
+    .page-pager__btn svg {
+        transition: none;
+    }
+}
+
+/* ---- prev / next page pager ---- */
+
+.page-pager {
+    view-transition-name: page-pager;
+    position: fixed;
+    z-index: 100015;
+    inset: 0;
+    /* Buttons opt back in — the overlay must not block the tower drag. */
+    pointer-events: none;
+}
+
+.page-pager__btn {
+    position: absolute;
+    top: 50%;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgba(193, 170, 144, 0.25);
+    border-radius: 50%;
+    background: rgba(29, 25, 21, 0.85);
+    color: #C1AA90;
+    text-decoration: none;
+    transform: translateY(-50%);
+    pointer-events: auto;
+    backdrop-filter: blur(6px);
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.page-pager__btn--prev {
+    left: 2.5%;
+}
+
+.page-pager__btn--next {
+    right: 2.5%;
+}
+
+.page-pager__btn svg {
+    display: block;
+    width: 24px;
+    height: 24px;
+    transition: transform 0.2s ease;
+}
+
+/* Hover: gold accent like the dock, plus a nudge in the travel direction. */
+.page-pager__btn:hover {
+    color: #FCFAF8;
+    border-color: #C1AA90;
+    background: rgba(193, 170, 144, 0.18);
+}
+
+.page-pager__btn--prev:hover svg {
+    transform: translateX(-3px);
+}
+
+.page-pager__btn--next:hover svg {
+    transform: translateX(3px);
+}
+
+.page-pager__btn:focus-visible {
+    outline: 2px solid #C1AA90;
+    outline-offset: 3px;
+}
+
+/* Paper pages: light buttons with warm walnut / mocha ink. */
+.editorial-page .page-pager__btn {
+    background: rgba(252, 250, 248, 0.95);
+    border-color: rgba(105, 84, 65, 0.25);
+    color: #3A3126;
+    box-shadow: 0 6px 18px rgba(29, 25, 21, 0.08);
+}
+
+.editorial-page .page-pager__btn:hover {
+    color: #C1AA90;
+    border-color: #C1AA90;
+    background: rgba(193, 170, 144, 0.15);
+}
+
+/* ---- footer ---- */
+
+.site-footer {
+    position: absolute;
+    z-index: 3;
+    right: 4%;
+    bottom: 0;
+    left: 4%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(193, 170, 144, 0.25);
+    font-size: 9px;
+}
+
+.site-footer i {
+    display: inline-block;
+    width: 1px;
+    height: 10px;
+    margin: 0 10px -2px;
+    background: rgba(193, 170, 144, 0.4);
+}
+
+.site-footer small {
+    color: rgba(193, 170, 144, 0.65);
+    font-size: 7px;
+    letter-spacing: 1.5px;
+}
+
+.site-footer p {
+    margin: 0;
+    font: italic 12px Georgia, serif;
+    color: #C1AA90;
+}
+
+.site-footer em {
+    margin-left: 15px;
+    color: #C1AA90;
+    font-style: normal;
+}
+
+/* ---- responsive ---- */
+
+@media (max-width: 700px) {
+    .site-brand {
+        top: max(20px, env(safe-area-inset-top));
+        left: max(22px, env(safe-area-inset-left));
+        font-size: 16px;
+        letter-spacing: 3px;
+        text-shadow: none;
+    }
+
+    .site-brand b {
+        font-size: 28px;
+    }
+
+    .site-brand small {
+        display: none;
+    }
+
+    .site-dock {
+        bottom: 12px;
+    }
+
+    .site-dock__list {
+        /* Fluid pill: fits any phone width, caps at the desktop size. */
+        width: min(94vw, 440px);
+        justify-content: space-between;
+        padding: 10px;
+    }
+
+    .site-dock__list > li {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    .site-dock__item {
+        width: 100%;
+        height: 54px;
+    }
+
+    .site-dock__label {
+        font-size: 8px;
+        letter-spacing: 0.3px;
+    }
+
+    .site-dock__item.is-active .site-dock__icon {
+        top: -22px;
+        width: 50px;
+        height: 50px;
+    }
+
+    /* On phones the dock owns the bottom edge — the pager tucks just
+       above it (dock top ≈ 88px, active circle ≈ 99px). */
+    .page-pager__btn {
+        top: auto;
+        bottom: 106px;
+        width: 44px;
+        height: 44px;
+        transform: none;
+    }
+
+    .page-pager__btn--prev {
+        left: 14px;
+    }
+
+    .page-pager__btn--next {
+        right: 14px;
+    }
+
+    .site-footer {
+        height: 56px;
+    }
+
+    .site-footer p {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 1024px) and (orientation: landscape), (max-height: 600px) and (orientation: landscape) and (pointer: coarse) {
+    .site-brand {
+        --brand-height: clamp(40px, calc(13.23 * var(--viewport-height)), 58px);
+        top: max(12px, env(safe-area-inset-top));
+        left: max(var(--mobile-edge), env(safe-area-inset-left));
+    }
+    .site-dock {
+        left: 50%;
+        right: auto;
+        bottom: max(12px, env(safe-area-inset-bottom));
+        transform: translateX(-50%) scale(.85);
+        transform-origin: bottom center;
+    }
+    .site-dock__list { width: clamp(300px, 41vw, 392px); gap: 0; justify-content: space-between; padding: 0 10px; }
+    .site-dock__list > li { flex: 1 1 0; min-width: 0; }
+    .site-dock__item { width: 100%; height: 54px; }
+    .site-dock__label { font-size: 8px; letter-spacing: .3px; }
+    .site-dock__item.is-active .site-dock__icon { top: -18px; width: 48px; height: 48px; }
+    .page-pager__btn { top: 50%; bottom: auto; width: 44px; height: 44px; transform: translateY(-50%); }
+    .page-pager__btn--prev { left: max(14px, env(safe-area-inset-left)); }
+    .page-pager__btn--next { right: max(14px, env(safe-area-inset-right)); }
+}

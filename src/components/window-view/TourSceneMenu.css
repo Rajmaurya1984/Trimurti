@@ -1,0 +1,228 @@
+.minimal-room-stack {
+  position: absolute;
+  bottom: max(32px, env(safe-area-inset-bottom));
+  left: max(32px, env(safe-area-inset-left));
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 175px;
+  max-width: calc(100vw - 64px);
+  max-height: calc(calc(100 * var(--viewport-height)) - 160px);
+  overflow-y: auto;
+  padding: 14px 10px 10px;
+  border: 1px solid #c1aa903d;
+  border-radius: 12px;
+/* background: linear-gradient(145deg, #2a231ce8, #1d1915d6);  
+  box-shadow: 0 12px 36px #0003;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); */
+  background: rgba(29, 25, 21, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  scrollbar-width: none;
+  scrollbar-color: #c1aa9060 transparent;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+.minimal-room-stack__title {
+  padding: 0 12px 10px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #c1aa9026;
+  color: #c1aa90;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.amenities-page .minimal-room-stack {
+  box-sizing: border-box;
+  max-height: min(300px, calc(calc(100 * var(--viewport-height)) - 160px));
+}
+.minimal-room-stack .stack-item {
+  position: relative;
+  flex-shrink: 0;
+  min-height: 30px;
+  padding: 5px 5px;
+  margin: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #e0d6cb;
+  text-align: left;
+  font: 500 13px/1.4 -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  letter-spacing: .02em;
+  cursor: pointer;
+  transition: color .25s ease, transform .25s cubic-bezier(.25, 1, .5, 1), background-color .25s ease, box-shadow .25s ease;
+}
+.minimal-room-stack .stack-item:hover:not(:disabled) {
+  color: #fff0cf;
+  transform: translateY(-2px) scale(1.02);
+  background: #c1aa9014;
+  box-shadow: 0 4px 12px #0002;
+}
+.minimal-room-stack .stack-item.active {
+  color: #fff0cf;
+  font-weight: 600;
+  background: #c1aa9026;
+}
+.amenities-page .minimal-room-stack .stack-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.amenities-page .stack-item__number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 24px;
+  height: 24px;
+  border: 1px solid #c1aa903d;
+  border-radius: 6px;
+  background: #c1aa9014;
+  color: #c1aa90;
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.amenities-page .stack-item__label {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+.amenities-page .stack-item.active .stack-item__number {
+  border-color: #c1aa9080;
+  background: #c1aa9033;
+  color: #fff0cf;
+}
+.stack-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 22%;
+  bottom: 22%;
+  width: 3px;
+  border-radius: 2px;
+  background: #c1aa90;
+  opacity: 0;
+  transform: scaleY(.4);
+  transition: opacity .2s ease, transform .2s cubic-bezier(.25, 1, .5, 1);
+}
+.stack-item.active::before { opacity: 1; transform: scaleY(1); }
+.minimal-room-stack .stack-item:focus-visible { outline: 2px solid #c1aa90; outline-offset: -2px; }
+.minimal-room-stack .stack-item:disabled { opacity: .55; cursor: wait; }
+/* The active stack item replaces the overlapping room caption. */
+.flat-tour--immersive .flat-tour__caption { display: none; }
+@media (max-width: 700px) {
+  .minimal-room-stack {
+    left: max(16px, env(safe-area-inset-left));
+    bottom: max(20px, env(safe-area-inset-bottom));
+    width: 180px;
+    max-height: min(calc(52 * var(--viewport-height)), calc(calc(100 * var(--viewport-height)) - 150px));
+    padding: 12px 8px 8px;
+    gap: 2px;
+  }
+  .minimal-room-stack .stack-item { min-height: 44px; padding: 10px 12px; font-size: 12px; }
+  .amenities-page .minimal-room-stack {
+    max-height: min(240px, calc(calc(100 * var(--viewport-height)) - 150px));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .minimal-room-stack .stack-item, .stack-item::before { transition: none; }
+  .minimal-room-stack .stack-item:hover:not(:disabled) { transform: none; }
+}
+
+@media (max-width: 1024px) and (orientation: landscape), (max-height: 600px) and (orientation: landscape) and (pointer: coarse) {
+  .minimal-room-stack,
+  .amenities-page .minimal-room-stack {
+    position: fixed;
+    left: max(var(--mobile-edge), env(safe-area-inset-left));
+    bottom: var(--mobile-bottom);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    width: var(--mobile-panel-width);
+    height: clamp(110px, calc(38 * var(--viewport-height)), 168px);
+    max-width: calc(100vw - 48px);
+    max-height: calc(calc(50 * var(--viewport-height)) - 30px - var(--mobile-bottom));
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 10px 8px 8px;
+    scrollbar-width: none;
+  }
+  .minimal-room-stack::-webkit-scrollbar { display: none; }
+  .minimal-room-stack .stack-item {
+    min-height: 34px;
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+  .minimal-room-stack .stack-item::before {
+    left: 0;
+    right: auto;
+    top: 22%;
+    bottom: 22%;
+    width: 3px;
+    height: auto;
+    transform: scaleY(.4);
+  }
+  .minimal-room-stack .stack-item.active::before { transform: scaleY(1); }
+}
+
+/* The exit stays above the room menu while the room list scrolls. */
+.room-tour-controls {
+  position: absolute;
+  z-index: 1201;
+  left: max(32px, env(safe-area-inset-left));
+  bottom: max(32px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  width: 175px;
+  max-width: calc(100vw - 64px);
+  max-height: calc(100dvh - 160px);
+}
+.room-tour-controls .minimal-room-stack {
+  position: relative;
+  inset: auto;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 0;
+  height: auto;
+  max-height: none;
+  margin: 0;
+}
+.room-tour-controls__back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  min-height: 44px;
+  padding: 8px 14px;
+  border: 1px solid #c1aa9080;
+  border-radius: 5px;
+  background: rgba(29, 25, 21, .9);
+  color: #fcfaf8;
+  font: 12px Arial, sans-serif;
+}
+.room-tour-controls__back:hover { background: #3a3126; }
+@media (max-width: 700px) {
+  .room-tour-controls {
+    left: max(16px, env(safe-area-inset-left));
+    bottom: max(20px, env(safe-area-inset-bottom));
+    width: 180px;
+    max-height: min(60dvh, calc(100dvh - 150px));
+    gap: 8px;
+  }
+}
+@media (max-width: 1024px) and (orientation: landscape), (max-height: 600px) and (orientation: landscape) and (pointer: coarse) {
+  .room-tour-controls {
+    position: fixed;
+    left: max(var(--mobile-edge), env(safe-area-inset-left));
+    bottom: var(--mobile-bottom);
+    width: var(--mobile-panel-width);
+    max-width: calc(100vw - 48px);
+    max-height: calc(100dvh - 110px - var(--mobile-bottom));
+  }
+  .room-tour-controls .minimal-room-stack {
+    max-height: min(168px, calc(100dvh - 164px - var(--mobile-bottom)));
+  }
+}

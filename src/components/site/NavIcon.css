@@ -1,0 +1,36 @@
+.nav-icon-eye__lid {
+  transform-box: view-box;
+  transform-origin: 50% 0%;
+  animation: nav-eye-blink 2s cubic-bezier(.37, 0, .63, 1) infinite;
+}
+
+.nav-icon-eye__shape {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+  animation: nav-eye-squeeze 2s cubic-bezier(.37, 0, .63, 1) infinite;
+}
+
+.nav-icon-eye:hover .nav-icon-eye__lid,
+.nav-icon-eye:hover .nav-icon-eye__shape,
+button:is(:hover, :focus-visible) .nav-icon-eye__lid,
+button:is(:hover, :focus-visible) .nav-icon-eye__shape,
+a:is(:hover, :focus-visible) .nav-icon-eye__lid,
+a:is(:hover, :focus-visible) .nav-icon-eye__shape {
+  animation: none;
+  transform: scale(1);
+}
+
+@keyframes nav-eye-blink {
+  0%, 30%, 70%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0); }
+}
+
+@keyframes nav-eye-squeeze {
+  0%, 30%, 70%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04, .92); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-icon-eye__lid,
+  .nav-icon-eye__shape { animation: none; }
+}

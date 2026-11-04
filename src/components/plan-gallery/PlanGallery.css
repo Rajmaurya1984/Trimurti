@@ -1,0 +1,180 @@
+/* Plan gallery: floor list, unit tabs and the image grid.
+   Palette: #1D1915, #3A3126, #695441, #C1AA90 */
+
+/* ---- floor selector ---- */
+
+.floor-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: sticky;
+    top: 24px;
+}
+
+.floor-selector__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 13px 16px;
+    border: 1px solid rgba(193, 170, 144, 0.35);
+    background: #FCFAF8;
+    color: #3A3126;
+    font: 11px Arial, sans-serif;
+    letter-spacing: 1px;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.floor-selector__item i {
+    font-style: normal;
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.floor-selector__item:hover {
+    border-color: #C1AA90;
+    color: #1D1915;
+}
+
+.floor-selector__item.is-active {
+    background: #1D1915;
+    border-color: #1D1915;
+    color: #C1AA90;
+}
+
+.floor-selector__item.is-active i {
+    opacity: 1;
+    transform: none;
+}
+
+/* ---- unit type tabs ---- */
+
+.unit-tabs {
+    display: inline-flex;
+    gap: 6px;
+    padding: 5px;
+    border: 1px solid rgba(193, 170, 144, 0.35);
+    background: rgba(193, 170, 144, 0.12);
+}
+
+.unit-tabs__item {
+    padding: 11px 26px;
+    border: 0;
+    background: transparent;
+    color: #695441;
+    font: 10px Arial, sans-serif;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease;
+}
+
+.unit-tabs__item:hover {
+    color: #1D1915;
+}
+
+.unit-tabs__item.is-active {
+    background: #1D1915;
+    color: #C1AA90;
+}
+
+/* ---- image grid ---- */
+
+.plan-gallery__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid rgba(193, 170, 144, 0.35);
+}
+
+.plan-gallery__title {
+    margin: 0;
+    font: 24px Georgia, serif;
+    color: #1D1915;
+}
+
+.plan-gallery__count {
+    margin: 0;
+    font: 9px Arial, sans-serif;
+    letter-spacing: 2px;
+    color: #695441;
+}
+
+.plan-gallery__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 18px;
+}
+
+.plan-gallery__item {
+    position: relative;
+    margin: 0;
+    border: 1px solid rgba(193, 170, 144, 0.35);
+    background: #FCFAF8;
+    overflow: hidden;
+}
+
+.plan-gallery__caption {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    padding: 4px 8px;
+    background: rgba(29, 25, 21, 0.85);
+    color: #C1AA90;
+    font: 9px Arial, sans-serif;
+    letter-spacing: 1.5px;
+}
+
+.plan-gallery--empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 320px;
+    border: 1px dashed rgba(193, 170, 144, 0.5);
+    background: #FCFAF8;
+    text-align: center;
+    padding: 32px;
+}
+
+.plan-gallery__pending-title {
+    margin: 0;
+    font: 400 28px Georgia, serif;
+    color: #1D1915;
+}
+
+.plan-gallery__pending-copy {
+    margin: 0;
+    font: 11px/1.7 Arial, sans-serif;
+    letter-spacing: 1px;
+    color: #695441;
+}
+
+@media (max-width: 700px) {
+    .floor-selector {
+        position: static;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-bottom: 22px;
+    }
+
+    .floor-selector__item {
+        flex: 1 1 auto;
+        justify-content: center;
+    }
+
+    .floor-selector__item i {
+        display: none;
+    }
+
+    .plan-gallery__grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 12px;
+    }
+}

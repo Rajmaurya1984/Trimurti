@@ -1,0 +1,933 @@
+.flat-tour {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: calc(100 * var(--viewport-height));
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: #fcfaf8;
+  background: #1d1915;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+.flat-tour::backdrop {
+  background: #1d1915;
+}
+
+.flat-tour button {
+  cursor: pointer;
+}
+
+.flat-tour button:focus-visible {
+  outline: 2px solid #c1aa90;
+  outline-offset: 4px;
+}
+
+.flat-tour__header {
+  height: 86px;
+  padding: 18px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #c1aa9030;
+}
+
+.flat-tour__header small,
+.flat-tour__caption small {
+  color: #c1aa90;
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+
+.flat-tour__header h2 {
+  margin: 5px 0 0;
+  font: 26px Georgia, serif;
+}
+
+.flat-tour__header button {
+  position: absolute;
+  z-index: 70;
+  top: 26px;
+  right: 4%;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgba(193, 170, 144, 0.55);
+  border-radius: 50%;
+  background: rgba(29, 25, 21, 0.7);
+  color: #fff0cf;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.flat-tour__body {
+  height: calc(100% - 86px);
+  display: grid;
+  grid-template-columns: minmax(300px, 32%) 1fr;
+}
+
+
+.flat-tour__eyebrow {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #c1aa90;
+}
+
+.flat-tour__map-panel h3 {
+  font: 25px/1.2 Georgia, serif;
+  margin: 16px 0;
+}
+
+.flat-tour__map-panel>p:not(.flat-tour__eyebrow) {
+  font-size: 12px;
+  color: #c1aa90;
+}
+
+.flat-tour__map {
+  position: relative;
+  margin: 30px 0;
+  aspect-ratio: 185 / 127.26;
+}
+
+.flat-tour__map svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 7px;
+}
+
+.flat-tour__pin {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+}
+
+.flat-tour__dot,
+.flat-tour__ping {
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.flat-tour__dot {
+  border: 2px solid #695441;
+  box-shadow: 0 1px 6px #0008;
+}
+
+.flat-tour__ping {
+  background: #ffffff99;
+  animation: flat-room-ping 1.8s cubic-bezier(0, 0, .2, 1) infinite;
+}
+
+.flat-tour__pin.is-selected .flat-tour__dot {
+  background: #c1aa90;
+  border-color: #fff;
+}
+
+.flat-tour__pin:hover,
+.flat-tour__pin:focus-visible {
+  z-index: 3;
+}
+
+.flat-tour__tooltip {
+  display: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 34px;
+  padding: 6px 9px;
+  border-radius: 4px;
+  background: #1d1915;
+  color: white;
+  white-space: nowrap;
+  font-size: 11px;
+}
+
+.flat-tour__pin:hover .flat-tour__tooltip,
+.flat-tour__pin:focus-visible .flat-tour__tooltip {
+  display: block;
+}
+
+.flat-tour__rooms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.flat-tour__rooms button {
+  padding: 9px 10px;
+  min-height: 40px;
+  color: #c1aa90;
+  border: 1px solid #c1aa9040;
+  background: transparent;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.flat-tour__rooms button[aria-pressed='true'] {
+  color: #1d1915;
+  background: #c1aa90;
+}
+
+.flat-tour__viewer {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.flat-tour__viewer canvas {
+  cursor: grab;
+  touch-action: none;
+}
+
+.flat-tour__viewer canvas:active {
+  cursor: grabbing;
+}
+
+.flat-tour__caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 45px 26px 24px;
+  /* background: linear-gradient(transparent, #1d1915dc); */
+  pointer-events: none;
+}
+
+.flat-tour__caption h3 {
+  margin: 8px 0;
+  font: 25px Georgia, serif;
+}
+
+.flat-tour__caption p {
+  font-size: 11px;
+}
+
+.flat-tour__zoom {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  display: flex;
+  gap: 6px;
+}
+
+.flat-tour__zoom button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: #fcfaf8;
+  background: #1d1915cc;
+  border: 1px solid #c1aa9080;
+  border-radius: 50%;
+  font-size: 22px;
+}
+
+.flat-tour__zoom button svg {
+  width: 20px;
+  height: 20px;
+}
+
+.flat-tour__zoom button:disabled {
+  opacity: .4;
+}
+
+.flat-tour__status {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 14px 20px;
+  background: #1d1915e8;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+@keyframes flat-room-ping {
+
+  75%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@media(max-width:700px) {
+  .flat-tour__header {
+    height: 72px;
+    padding: 12px 16px;
+  }
+
+  .flat-tour__body {
+    height: calc(100% - 72px);
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(240px, 56%) 1fr;
+  }
+
+  .flat-tour__viewer {
+    grid-row: 1;
+  }
+
+  .flat-tour__map-panel {
+    padding: 14px 16px;
+  }
+
+  .flat-tour__map-panel h3,
+  .flat-tour__map-panel>p {
+    display: none;
+  }
+
+  .flat-tour__map {
+    width: min(320px, 100%);
+    margin: 0 auto 18px;
+  }
+
+  .flat-tour__caption {
+    padding: 26px 16px 12px;
+  }
+
+  .flat-tour__caption h3 {
+    font-size: 20px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  .flat-tour__ping {
+    animation: none;
+  }
+}
+
+.flat-tour__header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.flat-tour--immersive .flat-tour__header {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 5;
+  /* background: linear-gradient(#1d1915b3, transparent); */
+  border: 0;
+}
+
+.flat-tour--immersive .flat-tour__body {
+  display: block;
+  height: 100%;
+}
+
+.flat-tour--immersive .flat-tour__viewer {
+  position: absolute;
+  inset: 0;
+}
+
+.flat-tour--immersive .flat-tour__map-panel {
+  position: absolute;
+  z-index: 4;
+  bottom: 24px;
+  left: 24px;
+  width: 265px;
+  max-height: 44%;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.flat-tour--immersive .flat-tour__map-panel>p,
+.flat-tour--immersive .flat-tour__map-panel h3,
+.flat-tour--immersive .flat-tour__rooms {
+  display: none;
+}
+
+.flat-tour--immersive .flat-tour__map {
+  margin: 0;
+  width: 100%;
+}
+
+.flat-tour--immersive .flat-tour__caption {
+  padding-left: 320px;
+}
+
+.flat-tour--immersive .flat-tour__zoom {
+  top: 110px;
+}
+
+@media(max-width:700px) {
+  .flat-tour__header-actions {
+    gap: 6px;
+  }
+
+  .flat-tour__header-actions button {
+    font-size: 10px;
+    padding: 9px;
+  }
+
+  .flat-tour--immersive .flat-tour__map-panel {
+    bottom: 135px;
+    left: 16px;
+    width: 185px;
+    max-height: 28%;
+    padding: 10px;
+  }
+
+  .flat-tour--immersive .flat-tour__caption {
+    padding: 28px 16px 20px;
+  }
+}
+
+/* Live radar and room hotspot authoring. */
+.flat-tour--immersive .flat-tour__map-panel {
+  left: auto;
+  right: 24px;
+  bottom: 24px;
+  max-height: 42%;
+}
+
+.flat-tour--immersive .flat-tour__caption {
+  padding-left: 26px;
+  padding-right: 320px;
+}
+
+.flat-radar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: #c1aa90;
+}
+
+.flat-radar__header button {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #c1aa9060;
+  border-radius: 50%;
+  color: #fcfaf8;
+  background: transparent;
+  font-size: 18px;
+}
+
+.flat-radar__position {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.flat-radar__cone {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  left: -45px;
+  top: -45px;
+  border-radius: 50%;
+  background: conic-gradient(from calc(var(--radar-fov, 72deg) / -2), #ba8434 0deg, #cba56d70 var(--radar-fov, 72deg), transparent var(--radar-fov, 72deg));
+}
+
+.flat-radar__position i {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  left: -5px;
+  top: -5px;
+  background: #cba56d;
+  border: 2px solid white;
+  border-radius: 50%;
+}
+
+.flat-radar__caption {
+  padding-top: 12px;
+  display: grid;
+  gap: 4px;
+  font: 12px Arial, sans-serif;
+}
+
+.flat-radar__caption small {
+  color: #c1aa90;
+  font-size: 9px;
+}
+
+.flat-pointer-toggle {
+  position: absolute;
+  z-index: 6;
+  left: 24px;
+  top: 105px;
+  padding: 9px 12px;
+  border: 1px solid #c1aa9080;
+  border-radius: 5px;
+  background: #1d1915e8;
+  color: #fcfaf8;
+  font-size: 11px;
+}
+
+.flat-pointer-tools {
+  position: absolute;
+  z-index: 6;
+  left: 24px;
+  top: 150px;
+  width: 280px;
+  max-height: calc(100% - 290px);
+  overflow-y: auto;
+  padding: 14px;
+  border: 1px solid #c1aa9050;
+  border-radius: 8px;
+  background: #1d1915ed;
+  color: #fcfaf8;
+  font: 11px/1.5 Arial, sans-serif;
+}
+
+.flat-pointer-tools .placement-panel {
+  position: static;
+  width: auto;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.flat-pointer-tools select,
+.flat-pointer-tools textarea {
+  width: 100%;
+  padding: 7px;
+  background: #3a3126;
+  color: #fcfaf8;
+  border: 1px solid #c1aa9060;
+}
+
+.flat-pointer-tools textarea {
+  min-height: 110px;
+  font: 10px monospace;
+}
+
+.flat-room-draft {
+  display: block;
+  white-space: nowrap;
+  padding: 6px 10px;
+  border: 1px solid #c1aa90;
+  border-radius: 5px;
+  background: #3a3126ed;
+  color: white;
+  font: 11px Arial, sans-serif;
+  pointer-events: none;
+}
+
+@media(max-width:700px) {
+  .flat-tour--immersive .flat-tour__map-panel {
+    left: auto;
+    right: 12px;
+    bottom: 16px;
+    width: 175px;
+    max-height: 32%;
+  }
+
+  .flat-tour--immersive .flat-tour__caption {
+    padding: 24px 200px 20px 16px;
+  }
+
+  .flat-tour--immersive .flat-tour__caption h3 {
+    font-size: 17px;
+  }
+
+  .flat-tour--immersive .flat-tour__caption p {
+    display: none;
+  }
+
+  .flat-pointer-toggle {
+    left: 12px;
+    top: 88px;
+  }
+
+  .flat-pointer-tools {
+    left: 12px;
+    top: 130px;
+    width: min(240px, calc(100vw - 90px));
+    max-height: 35%;
+  }
+}
+
+.flat-room-hotspot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.flat-room-hotspot__circle {
+  position: relative;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid #fff9;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 25%, #d9bd8670, #30251dd9 75%);
+  box-shadow: 0 2px 10px #0005, inset 0 0 0 4px #ffffff12, 0 0 14px #eac99126;
+  transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+/* A champagne ripple makes the doorway feel like a small illuminated beacon. */
+.flat-room-hotspot__circle::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border: 1px solid #f5d49b;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  animation: flat-hotspot-ripple 2.8s cubic-bezier(.2, .6, .35, 1) infinite;
+}
+
+@keyframes flat-hotspot-ripple {
+  0% {
+    transform: scale(.95);
+    opacity: 0;
+  }
+
+  18% {
+    opacity: .6;
+  }
+
+  75%,
+  100% {
+    transform: scale(1.65);
+    opacity: 0;
+  }
+}
+
+@keyframes flat-hotspot-glow {
+
+  0%,
+  100% {
+    opacity: .8;
+    transform: scale(.9);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+.flat-room-hotspot__circle::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff4df;
+  box-shadow: 0 0 7px #fff4dfb3, 0 0 14px #eac99173;
+  animation: flat-hotspot-glow 2.8s ease-in-out infinite;
+}
+
+.flat-room-hotspot__label {
+  position: absolute;
+  bottom: calc(100% + 5px);
+  left: 50%;
+  width: max-content;
+  max-width: min(200px, 60vw);
+  box-sizing: border-box;
+  padding: 8px 12px;
+  border: 1px solid #ffffff26;
+  border-radius: 8px;
+  background: #211d19f5;
+  color: #fff4df;
+  font: 500 12px/1.4 Arial, sans-serif;
+  text-align: center;
+  box-shadow: 0 4px 16px #0004;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 4px);
+  transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
+}
+
+.flat-room-hotspot__label::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: calc(50% - 4px);
+  border: 4px solid transparent;
+  border-top-color: #211d19f5;
+}
+
+.flat-room-hotspot:focus-visible,
+.flat-room-hotspot:active {
+  outline: 2px solid #fff4df;
+  outline-offset: 1px;
+}
+
+.flat-room-hotspot:focus-visible .flat-room-hotspot__label,
+.flat-room-hotspot:active .flat-room-hotspot__label {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+.flat-room-hotspot:focus-visible .flat-room-hotspot__circle,
+.flat-room-hotspot:active .flat-room-hotspot__circle {
+  border-color: #fff4df;
+  background: #806544d9;
+  transform: scale(1.12);
+  box-shadow: 0 3px 14px #0005, 0 0 0 4px #fff4df26, 0 0 22px #eac99166;
+}
+
+@media (hover: hover) {
+  .flat-room-hotspot:hover .flat-room-hotspot__label {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+  }
+
+  .flat-room-hotspot:hover .flat-room-hotspot__circle {
+    border-color: #fff4df;
+    background: #806544d9;
+    transform: scale(1.12);
+    box-shadow: 0 3px 14px #0005, 0 0 0 4px #fff4df26, 0 0 22px #eac99166;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .flat-room-hotspot__circle::before,
+  .flat-room-hotspot__circle::after {
+    animation: none;
+  }
+
+  .flat-room-hotspot__circle,
+  .flat-room-hotspot__label {
+    transition: none;
+  }
+}
+
+/* Keep the viewing axis distinct from the edges of the field of view. */
+.flat-radar__cone::after {
+  content: '';
+  position: absolute;
+  left: calc(50% - 1px);
+  bottom: 50%;
+  width: 2px;
+  height: 42%;
+  border-radius: 2px;
+  background: #fff4d9;
+  box-shadow: 0 0 3px #695441;
+}
+
+.flat-tour--immersive #flat-radar-drawing>p,
+.flat-tour--immersive #flat-radar-drawing>h3 {
+  display: none;
+}
+
+.flat-tour--immersive .flat-tour__map-panel {
+  max-height: calc(calc(100 * var(--viewport-height)) - 120px);
+}
+
+.flat-radar__position i {
+  box-sizing: border-box;
+}
+
+@media (max-width: 1024px) and (orientation: landscape),
+(max-height: 600px) and (orientation: landscape) and (pointer: coarse) {
+  .flat-tour--immersive .flat-tour__map-panel {
+    left: auto;
+    right: max(16px, env(safe-area-inset-right));
+    bottom: max(12px, env(safe-area-inset-bottom));
+    width: var(--mobile-map-width);
+    padding: 8px;
+    max-height: calc(calc(100 * var(--viewport-height)) - 88px - env(safe-area-inset-bottom));
+    overflow-y: auto;
+  }
+
+  .flat-tour__header button {
+    top: max(12px, env(safe-area-inset-top));
+  }
+
+  .flat-room-hotspot__circle {
+    width: 26px;
+    height: 26px;
+  }
+
+  .flat-room-hotspot__label {
+    font-size: 10px;
+    padding: 5px 8px;
+  }
+
+  .flat-pointer-toggle {
+    top: 72px;
+    left: max(var(--mobile-edge), env(safe-area-inset-left));
+  }
+
+  .flat-pointer-tools {
+    top: 112px;
+    left: max(var(--mobile-edge), env(safe-area-inset-left));
+    max-height: calc(calc(100 * var(--viewport-height)) - 132px);
+    width: min(280px, calc(100vw - 64px));
+  }
+}
+
+/* Center the pulse and camera on the same capture point. */
+.flat-tour__dot,
+.flat-tour__ping {
+  left: 50%;
+  top: 50%;
+  margin-left: -6.5px;
+  margin-top: -6.5px;
+  box-sizing: border-box;
+}
+
+.flat-tour__pin .flat-tour__ping {
+  animation: none;
+  opacity: 0;
+}
+
+.flat-tour__pin.is-selected .flat-tour__ping {
+  opacity: 1;
+  background: #cba56d99;
+  animation: flat-room-ping 1.8s cubic-bezier(0, 0, .2, 1) infinite;
+}
+
+.flat-radar__cone {
+  transform-origin: 50% 50%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flat-tour__pin.is-selected .flat-tour__ping {
+    animation: none;
+    opacity: .4;
+  }
+}
+
+/* Keep adjacent room targets separate on the compact floor plan. */
+.flat-tour[data-flat-number="2"] .flat-tour__map,
+.flat-tour[data-flat-number="5"] .flat-tour__map {
+  container-type: inline-size;
+}
+
+.flat-tour[data-flat-number="2"] .flat-tour__pin,
+.flat-tour[data-flat-number="5"] .flat-tour__pin {
+  width: clamp(14px, 6cqw, 22px);
+  height: clamp(14px, 6cqw, 22px);
+}
+
+.flat-tour[data-flat-number="2"] .flat-tour__tooltip,
+.flat-tour[data-flat-number="5"] .flat-tour__tooltip {
+  bottom: calc(100% + 5px);
+  pointer-events: none;
+}
+
+/* Point each room label at its own dot rather than a neighbouring room. */
+.flat-tour__tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: calc(50% - 4px);
+  border: 4px solid transparent;
+  border-top-color: #1d1915;
+}
+
+/* Each tour shows its own cropped flat, rather than the entire floor. */
+.flat-tour.flat-tour--immersive .flat-tour__map-panel {
+  display: block;
+  position: absolute;
+  left: auto;
+  top: auto;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  width: clamp(155px, 19vw, 260px);
+  max-height: 46svh;
+  overflow: auto;
+  padding: 8px;
+  border: 1px solid var(--gold);
+  background: var(--linen);
+  z-index: 12;
+}
+
+.flat-tour[data-flat-number="2"] .flat-tour__map-panel {
+  width: clamp(125px, 12vw, 180px);
+}
+
+.flat-tour.flat-tour--immersive .flat-tour__map {
+  display: block;
+  width: 100%;
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+}
+
+.flat-tour.flat-tour--immersive .flat-tour__map svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.flat-tour.flat-tour--immersive .flat-tour__rooms {
+  display: none;
+}
+
+@media(max-width:650px) {
+  .flat-tour.flat-tour--immersive .flat-tour__map-panel {
+    width: 160px;
+    max-height: 34svh;
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .flat-tour[data-flat-number="2"] .flat-tour__map-panel {
+    width: 115px;
+  }
+}
+
+/* Rotate the whole coordinate layer so the plan, pins and live cone stay aligned. */
+.flat-tour__map-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.flat-tour[data-flat-number="2"] .flat-tour__map-content {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(270deg);
+  transform-origin: center;
+}
+
+.flat-tour.flat-tour--immersive[data-flat-number="2"] .flat-tour__map-panel {
+  width: clamp(200px, 24vw, 300px);
+}
+
+.flat-tour[data-flat-number="2"] .flat-tour__pin {
+  /* Counter the coordinate layer rotation while keeping labels above their dots. */
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+@media(max-width:650px) {
+  .flat-tour.flat-tour--immersive[data-flat-number="2"] .flat-tour__map-panel {
+    width: 180px;
+  }
+}

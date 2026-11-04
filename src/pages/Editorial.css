@@ -1,0 +1,49 @@
+/* Shared shell for the four editorial pages (Location, Amenities, Plan,
+   Legacy): warm cashmere paper background, header treatment and page rhythm.
+   Palette: #1D1915, #3A3126, #695441, #C1AA90 */
+
+.editorial-page {
+    min-height: 100vh;
+    background: #F5EFEB;
+    color: #1D1915;
+    /* Bottom padding keeps the footer clear of the fixed bottom pill dock. */
+    padding: 130px 4% 140px;
+}
+
+/* The brand floats top-left over the paper background. */
+.editorial-page .site-brand {
+    color: #1D1915;
+    text-shadow: none;
+}
+
+.editorial-page .site-brand b {
+    color: #695441;
+}
+
+.editorial-page .site-footer {
+    position: relative;
+    inset: auto;
+    margin-top: 60px;
+    height: 76px;
+    border-color: rgba(58, 49, 38, 0.16);
+    color: #695441;
+}
+
+.editorial-page .site-footer small {
+    color: #695441;
+}
+
+.editorial-page .site-footer i {
+    background: #C1AA90;
+}
+
+.editorial-page button:focus-visible,
+.editorial-page a:focus-visible {
+    outline: 2px solid #C1AA90;
+    outline-offset: 4px;
+}
+
+/* Bottom padding so the last section never hugs the footer. */
+.editorial-page__body {
+    padding-bottom: 20px;
+}

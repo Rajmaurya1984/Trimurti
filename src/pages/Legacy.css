@@ -1,0 +1,92 @@
+/* Legacy page: vertical timeline + closing statement.
+   Palette: #1D1915, #3A3126, #695441, #C1AA90 */
+
+.legacy-timeline {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin: 10px 0 46px;
+    padding-left: 34px;
+    border-left: 1px solid rgba(193, 170, 144, 0.4);
+}
+
+.legacy-entry {
+    position: relative;
+    display: grid;
+    grid-template-columns: 90px minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+/* Timeline node on the rail. */
+.legacy-entry::before {
+    content: '';
+    position: absolute;
+    top: 7px;
+    left: -39px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #C1AA90;
+    box-shadow: 0 0 0 4px rgba(193, 170, 144, 0.25);
+}
+
+.legacy-entry__year {
+    margin: 0;
+    font: 400 26px Georgia, serif;
+    color: #695441;
+}
+
+.legacy-entry__body h2 {
+    margin: 0 0 8px;
+    font: 400 24px Georgia, serif;
+    color: #1D1915;
+}
+
+.legacy-entry__body p {
+    margin: 0;
+    max-width: 620px;
+    font: 12px/1.85 Arial, sans-serif;
+    color: #695441;
+}
+
+.legacy-closing {
+    padding: 44px;
+    margin-bottom: 20px;
+    background: #1D1915;
+    color: #FCFAF8;
+    border: 1px solid rgba(193, 170, 144, 0.25);
+}
+
+.legacy-closing h2 {
+    margin: 0 0 16px;
+    font: 400 clamp(26px, 3vw, 38px)/1.2 Georgia, serif;
+    color: #C1AA90;
+}
+
+.legacy-closing p {
+    margin: 0;
+    max-width: 640px;
+    font: 12.5px/1.9 Arial, sans-serif;
+    color: rgba(193, 170, 144, 0.85);
+}
+
+@media (max-width: 700px) {
+    .legacy-timeline {
+        padding-left: 24px;
+    }
+
+    .legacy-entry {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .legacy-entry::before {
+        left: -29px;
+    }
+
+    .legacy-closing {
+        padding: 30px 24px;
+    }
+}

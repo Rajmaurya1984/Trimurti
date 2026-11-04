@@ -1,0 +1,26 @@
+.tm-location-page { position:fixed; inset:0; width:100%; height:100%; overflow:hidden; background:var(--espresso); color:var(--linen); }
+.tm-location-canvas { position:absolute !important; inset:0; width:100% !important; height:100% !important; cursor:grab; }
+.tm-location-canvas:active { cursor:grabbing; }
+.tm-location-tools { position:absolute; z-index:40; left:max(20px,env(safe-area-inset-left)); bottom:max(20px,env(safe-area-inset-bottom)); width:min(290px,calc(100% - 40px)); max-height:calc(100vh - 130px); max-height:calc(100dvh - 130px); overflow:auto; padding:14px; border:1px solid #c1aa9060; border-radius:8px; background:#211d19ed; font:12px/1.5 Arial,sans-serif; }
+.tm-location-tools label { display:grid; gap:5px; margin:10px 0; }
+.tm-location-tools :is(input,select,textarea) { box-sizing:border-box; width:100%; padding:8px; border:1px solid #c1aa9070; border-radius:4px; color:#fcfaf8; background:#3a3126; font:inherit; }
+.tm-location-tools button,.tm-location-status button { padding:9px 12px; margin:3px; border:1px solid #c1aa90; border-radius:4px; background:#594333; color:#fcfaf8; cursor:pointer; font:inherit; }
+.tm-location-tools button:disabled { opacity:.45; cursor:default; }
+.tm-location-tools h2 { font-size:16px; }
+.tm-location-status { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; gap:12px; }
+.tm-location-page button:focus-visible { outline:2px solid #c1aa90; outline-offset:3px; }
+
+/* Avenue67-style plates and leaders, anchored at the authored coordinates. */
+.tm-location-callouts { position:absolute; inset:0; z-index:35; pointer-events:none; overflow:hidden; }
+.tm-location-leaders { position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+.tm-location-leaders path { fill:none; stroke:#cba56d; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; visibility:hidden; }
+.tm-location-card { position:absolute; top:0; left:0; visibility:hidden; pointer-events:auto; display:flex; align-items:center; gap:9px; width:max-content; max-width:min(320px,calc(100vw - 24px)); min-height:40px; padding:11px 15px; border:1px solid #c1aa9061; border-radius:6px; background:#fffdf9; color:#30271f; box-shadow:0 3px 12px #1d191529; font:600 10.5px/1.4 Arial,sans-serif; letter-spacing:.055em; text-align:left; cursor:pointer; }
+.tm-location-card > svg { flex:none; width:17px; height:17px; color:#d19b2f; }
+.tm-location-card > span { flex:1; min-width:0; overflow-wrap:anywhere; }
+.tm-location-card > small { flex:none; padding-left:10px; border-left:1px solid #d19b2f57; color:#986b18; font-size:9.5px; white-space:nowrap; }
+.tm-location-card:hover,.tm-location-card[aria-pressed="true"] { border-color:#b58526; box-shadow:0 4px 18px #1d191540; }
+.tm-location-dot { position:absolute; top:0; left:0; visibility:hidden; pointer-events:auto; width:28px; height:28px; padding:0; border:0; border-radius:50%; background:transparent; cursor:pointer; }
+.tm-location-dot::after { content:''; position:absolute; inset:9px; background:#d19b2f; border:2px solid white; border-radius:50%; box-shadow:0 0 0 3px #d19b2f40; }
+.tm-location-dot[aria-pressed="true"]::after { box-shadow:0 0 0 5px #d19b2f65; }
+@media(max-width:700px) { .tm-location-card { max-width:min(250px,calc(100vw - 24px)); gap:7px; padding:9px 11px; font-size:10px; } .tm-location-card > svg { width:14px; height:14px; } }
+

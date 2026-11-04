@@ -1,0 +1,61 @@
+/* Design tokens for 67 Avenue.
+   Client Luxury Palette:
+     #1D1915 - Rich Espresso (Deepest Dark Surface)
+     #3A3126 - Deep Walnut (Mid-Dark Surface & Active Elevation)
+     #695441 - Warm Mocha (Bronze Ink & Secondary Borders)
+     #C1AA90 - Cashmere Sand (Primary Gold/Bronze Accent & Highlight)
+*/
+
+:root {
+  /* Client 4-Color Tokens */
+  --c-espresso: #1D1915;
+  --c-walnut:   #3A3126;
+  --c-mocha:    #695441;
+  --c-cashmere: #C1AA90;
+
+  /* Surfaces */
+  --deep: #1D1915;
+  --surface: #F5EFEB;
+  --card: #FCFAF8;
+  --overlay: rgba(29, 25, 21, 0.82);
+
+  /* Ink */
+  --ink: #1D1915;
+  --ink-secondary: #3A3126;
+  --ink-muted: #695441;
+  --paper: #C1AA90;
+  --paper-muted: rgba(193, 170, 144, 0.72);
+
+  /* Accents */
+  --gold: #C1AA90;
+  --gold-soft: #D9C8B5;
+  --sage: #695441;
+
+  /* Lines */
+  --line: rgba(58, 49, 38, 0.16);
+  --line-soft: rgba(193, 170, 144, 0.25);
+
+  /* Type */
+  --serif: Georgia, 'Times New Roman', serif;
+  --sans: Arial, Helvetica, sans-serif;
+
+  /* Layout */
+  --gutter: 4%;
+  --header-h: 96px;
+}
+
+/* Older Android display browsers do not understand dvh/svh. Keep those units
+   out of custom properties until support is confirmed, or var() consumers
+   become invalid at computed-value time (including the header logo height). */
+:root {
+  --viewport-height: 1vh;
+  --small-viewport-height: 1vh;
+}
+
+@supports (height: 1dvh) {
+  :root { --viewport-height: 1dvh; }
+}
+
+@supports (height: 1svh) {
+  :root { --small-viewport-height: 1svh; }
+}

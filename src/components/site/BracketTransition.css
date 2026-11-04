@@ -1,0 +1,97 @@
+.tm-route-stage {
+  min-height: 100svh;
+  /* Transform the inner content only during animation, so fixed tour controls
+     keep their viewport positioning during normal use. */
+}
+.tm-route-stage--open .tm-route-content,
+.tm-route-stage--swapping .tm-route-content {
+  animation: tm-page-zoom-out .5s cubic-bezier(.7, 0, .84, 0) both;
+}
+.tm-route-stage--enter .tm-route-content {
+  animation: tm-page-zoom-in .9s cubic-bezier(.16, 1, .3, 1) both;
+}
+.tm-route-stage--enter :is(.tm-hero-copy, .tm-placeholder) > :is(h1, p, a) {
+  animation: tm-content-rise .7s cubic-bezier(.16, 1, .3, 1) both;
+}
+.tm-route-stage--enter :is(.tm-hero-copy, .tm-placeholder) > h1 { animation-delay: .08s; }
+.tm-route-stage--enter :is(.tm-hero-copy, .tm-placeholder) > a { animation-delay: .18s; }
+@keyframes tm-page-zoom-out { to { opacity: 0; transform: scale(1.15); } }
+@keyframes tm-page-zoom-in {
+  from { opacity: 0; transform: scale(.5); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes tm-content-rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.tm-transition-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: rgb(92 64 51 / 78%);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .4s ease;
+}
+.tm-transition-veil.is-on { opacity: 1; }
+/* Original sculpted glyphs and depth animation, with full viewport travel. */
+.tm-transition-glyphs {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2vw;
+  pointer-events: none;
+  perspective: 120vmax;
+  transform-style: preserve-3d;
+  overflow: clip;
+}
+.tm-transition-glyph {
+  font-family: var(--serif);
+  font-size: 40vmin;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--gold);
+  text-shadow: 0 0 30px rgb(227 198 136 / 25%);
+  opacity: 0;
+  transform-style: preserve-3d;
+  flex-shrink: 0;
+}
+.tm-transition-glyphs.is-in .tm-transition-glyph--left { animation: tm-bracket-in-left .55s cubic-bezier(.16, 1, .3, 1) both; }
+.tm-transition-glyphs.is-in .tm-transition-glyph--right { animation: tm-bracket-in-right .55s cubic-bezier(.16, 1, .3, 1) both; }
+.tm-transition-glyphs.is-open .tm-transition-glyph--left { animation: tm-bracket-open-left .9s cubic-bezier(.7, 0, .2, 1) both; }
+.tm-transition-glyphs.is-open .tm-transition-glyph--right { animation: tm-bracket-open-right .9s cubic-bezier(.7, 0, .2, 1) both; }
+@keyframes tm-bracket-in-left {
+  from { opacity: 0; transform: translateZ(-700px) rotateY(70deg); }
+  to { opacity: 1; transform: translateZ(0) rotateY(0); }
+}
+@keyframes tm-bracket-in-right {
+  from { opacity: 0; transform: translateZ(-700px) rotateY(-70deg); }
+  to { opacity: 1; transform: translateZ(0) rotateY(0); }
+}
+@keyframes tm-bracket-open-left {
+  0% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translate3d(-50vw, 0, 0) scale(3); }
+}
+@keyframes tm-bracket-open-right {
+  0% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translate3d(50vw, 0, 0) scale(3); }
+}
+.tm-transition-shield { position: fixed; inset: 0; z-index: 10000; cursor: progress; }
+body:has(.tm-transition-shield) { overflow: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  .tm-transition-veil, .tm-transition-glyphs { display: none; }
+  .tm-route-content, .tm-route-content * { animation: none !important; }
+}
+
+
+
+
+
+/* Fixed panorama children keep a full-size containing block during zoom. */
+.tm-route-content { min-height: 100dvh; }

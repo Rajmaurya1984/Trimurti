@@ -1,0 +1,49 @@
+/* Section headings across all pages.
+   Palette: #1D1915, #3A3126, #695441, #C1AA90 */
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 60px;
+    margin-bottom: 36px;
+}
+
+.section-heading__eyebrow {
+    margin: 0 0 17px;
+    color: #695441;
+    font: 9px Arial, sans-serif;
+    letter-spacing: 2.2px;
+}
+
+.section-heading h1 {
+    margin: 0;
+    max-width: 790px;
+    font: 400 clamp(35px, 3.4vw, 54px)/1.1 Georgia, serif;
+    letter-spacing: -1.5px;
+    color: #1D1915;
+}
+
+.section-heading h1 em {
+    color: #695441;
+    font-weight: 400;
+}
+
+.section-heading__intro {
+    max-width: 335px;
+    margin: 0;
+    font: 12px/1.8 Arial, sans-serif;
+    color: #695441;
+}
+
+@media (max-width: 700px) {
+    .section-heading {
+        flex-direction: column;
+        align-items: start;
+        gap: 18px;
+    }
+
+    .section-heading__intro {
+        max-width: none;
+    }
+}
