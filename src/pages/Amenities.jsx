@@ -1,4 +1,4 @@
-﻿import { lazy, Suspense, useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import SiteHeader from '../components/site/SiteHeader.jsx'
 import NavIcon from '../components/site/NavIcon.jsx'
@@ -73,7 +73,7 @@ export default function Amenities() {
       </Suspense>
       <aside className="amenities-plan" aria-label="Amenities floor plan">
         <div className="amenities-plan__drawing">
-          <img src="/amenitites/amenityPlan.png" alt="Amenities floor plan" draggable={false} />
+          <img src="/amenitites/amenitiesFloorPlan.png" alt="Amenities floor plan" draggable={false} />
           <div ref={positionRef} className="amenities-radar__position" hidden aria-hidden="true">
             <span ref={coneRef} className="amenities-radar__cone" /><i />
           </div>
