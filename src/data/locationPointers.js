@@ -13,7 +13,7 @@ export const LOCATION_POINTERS = [
   },
   {
     "id": "a54cac64-2377-4725-b7d1-8aa4a968e0c5",
-    "title": "Sai Baba Nagar Station 2min",
+    "title": "Sai Baba Nagar Metro Station 2min",
     "category": "Connectivity",
     "description": "Sai Baba Nagar Station 2min",
     "position": [
@@ -24,9 +24,9 @@ export const LOCATION_POINTERS = [
   },
   {
     "id": "58ccfe00-c4cc-4487-911f-df3283286af0",
-    "title": "Wester Express Highway 6min",
+    "title": "Western Express Highway 6min",
     "category": "Connectivity",
-    "description": "Wester Express Highway 6min",
+    "description": "Western Express Highway 6min",
     "position": [
       -5.271,
       -0.981,
@@ -122,17 +122,6 @@ export const LOCATION_POINTERS = [
     ]
   },
   {
-    "id": "8329e083-1bd7-4730-b360-41bee8545673",
-    "title": "Rassaz Shopping Mall 2min",
-    "category": "lifestyle",
-    "description": "Rassaz Shopping Mall 2min",
-    "position": [
-      -19.086,
-      -9.104,
-      -44.202
-    ]
-  },
-  {
     "id": "83613a88-eecd-4fc2-8c34-4a68a81e945f",
     "title": "Cordis Heart Institute Best EECP center 2min",
     "category": "hospitals",
@@ -154,17 +143,7 @@ export const LOCATION_POINTERS = [
       -39.799
     ]
   },
-  {
-    "id": "98af14bf-3e8f-41db-99c9-9dcbdcb2e38e",
-    "title": "Vijay Sales 4min",
-    "category": "lifestyle",
-    "description": "Vijay Sales 4min",
-    "position": [
-      23.911,
-      -1.376,
-      42.748
-    ]
-  },
+
   {
     "id": "4044860e-39ed-4001-a831-f5b352b3dbd6",
     "title": "Brand Factory 7min",
