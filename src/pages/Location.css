@@ -95,3 +95,8 @@
     min-width: 0;
     min-height: 0;
 }
+/* Keep projected labels and Drei HTML layers below the sibling site header. */
+.editorial-page--panorama .landmark-panorama-container {
+    isolation: isolate;
+    z-index: 0;
+}

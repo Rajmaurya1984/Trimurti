@@ -246,3 +246,45 @@
 .amenities-plan__alignment input {
   width: 100%;
 }
+/* Match the flat tour's compact lower-left room selector. */
+.amenities-page .amenities-tour-controls {
+  width: 175px;
+  left: max(32px, env(safe-area-inset-left));
+  bottom: max(32px, env(safe-area-inset-bottom));
+}
+.amenities-page .amenities-tour-controls .minimal-room-stack {
+  max-height: min(260px, calc(100 * var(--viewport-height) - 190px));
+  padding: 10px 8px 8px;
+}
+.amenities-page .amenities-tour-controls .stack-item {
+  min-height: 30px;
+  padding: 5px;
+  gap: 6px;
+  font-size: 13px;
+}
+.amenities-page .amenities-tour-controls .stack-item__number {
+  flex-basis: 20px;
+  height: 20px;
+  font-size: 10px;
+}
+@media (max-width: 700px) {
+  .amenities-page .amenities-tour-controls {
+    width: 180px;
+    left: max(16px, env(safe-area-inset-left));
+    bottom: max(20px, env(safe-area-inset-bottom));
+  }
+  .amenities-page .amenities-tour-controls .stack-item { min-height: 44px; font-size: 12px; }
+}
+@media (max-width: 1024px) and (orientation: landscape),
+(max-height: 600px) and (orientation: landscape) and (pointer: coarse) {
+  .amenities-page .amenities-tour-controls {
+    width: var(--mobile-panel-width);
+    left: max(var(--mobile-edge), env(safe-area-inset-left));
+    bottom: var(--mobile-bottom);
+    max-height: calc(100 * var(--viewport-height) - 110px - var(--mobile-bottom));
+  }
+  .amenities-page .amenities-tour-controls .minimal-room-stack {
+    max-height: min(168px, calc(100 * var(--viewport-height) - 164px - var(--mobile-bottom)));
+  }
+  .amenities-page .amenities-tour-controls .stack-item { min-height: 34px; font-size: 11px; }
+}

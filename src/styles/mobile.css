@@ -1,0 +1,53 @@
+/* Keep vh fallbacks for older mobile browsers. */
+@supports (height: 1dvh) {
+  :root { --viewport-height: 1dvh; }
+}
+@supports (height: 1svh) {
+  :root { --small-viewport-height: 1svh; }
+}
+/* Shared landscape sizing keeps phone controls on the same anchors. */
+@media (max-width: 1024px) and (orientation: landscape), (max-height: 600px) and (orientation: landscape) and (pointer: coarse) {
+  :root {
+    --mobile-edge: clamp(16px, 2.82vw, 28px);
+    --mobile-bottom: max(16px, env(safe-area-inset-bottom));
+    --mobile-panel-width: clamp(112px, 15.26vw, 146px);
+    --mobile-map-width: clamp(145px, 20.54vw, 196px);
+  }
+}
+
+.rotate-device-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: calc(100 * var(--viewport-height));
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  border: 0;
+  padding: 24px;
+  background: var(--espresso);
+  color: #fff;
+  text-align: center;
+  z-index: 100100;
+}
+
+.rotate-device-overlay::backdrop { background: var(--espresso); }
+.rotate-device-overlay[open] { display: flex; justify-content: center; align-items: center; }
+.rotate-content h2 { margin: 16px 0 8px; font-size: 18px; font-weight: 600; color: #f7f4f0; }
+.rotate-content p { margin: 0; font-size: 13px; line-height: 1.5; color: #a3978e; }
+.phone-icon { color: var(--gold); animation: spinPhone 2.5s ease-in-out infinite; }
+
+@keyframes spinPhone {
+  0%, 10%, 90%, 100% { transform: rotate(0deg); }
+  40%, 60% { transform: rotate(-90deg); }
+}
+
+@media (max-width: 767px) and (orientation: portrait), (max-width: 1024px) and (orientation: portrait) and (any-pointer: coarse) {
+  body { overflow: hidden; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phone-icon { animation: none; transform: rotate(-90deg); }
+}
+

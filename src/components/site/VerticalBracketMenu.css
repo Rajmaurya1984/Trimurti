@@ -1,6 +1,14 @@
+/* Keep navigation above panorama controls without blocking the scene. */
+.tm-header { --header-edge: 2rem; }
+.tm-header.tm-header {
+  z-index: 100050;
+  pointer-events: none;
+}
+.tm-header > .tm-brand,
+.tm-header .menu-fixed-wrapper { pointer-events: auto; }
 .menu-fixed-wrapper {
   position: fixed;
-  top: max(2rem, env(safe-area-inset-top));
+  top: max(var(--header-edge), env(safe-area-inset-top));
   left: max(2rem, env(safe-area-inset-left));
   z-index: 9999;
   display: flex;
@@ -12,8 +20,8 @@
 .bracket-micro-nav {
   position: relative;
   box-sizing: border-box;
-  width: min(200px, calc(100vw - 4rem));
-  padding: 1.5rem 2rem;
+  width: min(150px, calc(100vw - 4rem));
+  padding: 1.5rem 1rem;
   background: rgba(89, 67, 51, .95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -41,7 +49,8 @@
 .nav-item-link:hover, .nav-item-link.current-active { color: #f5f0eb; transform: translateX(4px); }
 .nav-item-link:focus-visible { outline-offset: 2px; }
 @media (max-width: 600px), (max-height: 600px) {
-  .menu-fixed-wrapper { top: max(1rem, env(safe-area-inset-top)); left: max(1rem, env(safe-area-inset-left)); }
+  .tm-header { --header-edge: 1rem; }
+  .menu-fixed-wrapper { top: max(var(--header-edge), env(safe-area-inset-top)); left: max(1rem, env(safe-area-inset-left)); }
   .bracket-micro-nav { padding: 1rem 1.5rem; }
   .nav-links-list { gap: .75rem; }
 }
@@ -49,11 +58,140 @@
   .bracket-micro-nav, .nav-item-link { transition: none; }
 }
 /* Keep the brand aligned while the menu floats independently. */
-.tm-header > .tm-brand { margin-left: auto; }
+.tm-header > .tm-brand {
+  position: absolute;
+  top: max(var(--header-edge), env(safe-area-inset-top));
+  right: max(var(--header-edge), env(safe-area-inset-right));
+  margin: 0;
+}
 
 /* Keep every link visible on short screens without a scrolling panel. */
 @media (max-height: 450px) {
   .bracket-micro-nav { padding: .65rem 1.25rem; }
   .nav-links-list { gap: .35rem; }
   .nav-item-link { font-size: .95rem; line-height: 1.35; }
+}
+/* Compact chrome leaves the panorama controls clear on landscape phones. */
+@media (max-width: 1024px) and (orientation: landscape),
+(max-height: 600px) and (orientation: landscape) and (pointer: coarse) {
+  .tm-header { --header-edge: 12px; }
+  .menu-fixed-wrapper { left: max(var(--mobile-edge), env(safe-area-inset-left)); }
+  .bracket-micro-nav { width: var(--mobile-panel-width); padding: 8px 10px; }
+  .nav-links-list { gap: 0; }
+  .nav-item-link { display: flex; align-items: center; min-height: 36px; font-size: 12px; }
+  .tm-header > .tm-brand {
+    right: max(var(--mobile-edge), env(safe-area-inset-right));
+    width: clamp(72px, calc(22 * var(--viewport-height)), 100px);
+  }
+}
+.tm-mobile-menu-toggle,
+.tm-menu-backdrop { display: none; }
+
+@media (max-width: 1024px),
+(max-height: 600px) and (orientation: landscape) and (pointer: coarse) {
+  .tm-header { z-index: 100050; pointer-events: none; }
+  .tm-header > .tm-brand { pointer-events: auto; }
+  .menu-fixed-wrapper { gap: 10px; pointer-events: auto; }
+  .tm-mobile-menu-toggle {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 1px solid #e3c68866;
+    border-radius: 14px;
+    background: #4a342bf2;
+    color: #f5f0eb;
+    box-shadow: 0 4px 16px #0003;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  .tm-menu-icon { position: relative; display: block; width: 20px; height: 16px; }
+  .tm-menu-icon i {
+    position: absolute;
+    left: 0;
+    width: 20px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: transform .2s ease, opacity .2s ease;
+  }
+  .tm-menu-icon i:nth-child(1) { top: 0; }
+  .tm-menu-icon i:nth-child(2) { top: 7px; }
+  .tm-menu-icon i:nth-child(3) { top: 14px; }
+  .is-menu-open .tm-menu-icon i:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .is-menu-open .tm-menu-icon i:nth-child(2) { opacity: 0; }
+  .is-menu-open .tm-menu-icon i:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .tm-mobile-menu-toggle:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  .tm-menu-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: #1d140e55;
+    pointer-events: auto;
+    cursor: default;
+  }
+  .menu-fixed-wrapper .bracket-micro-nav { display: none; }
+  .menu-fixed-wrapper.is-menu-open .bracket-micro-nav {
+    display: block;
+    width: min(168px, calc(100vw - 48px));
+    max-height: calc(100 * var(--viewport-height) - 96px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 8px;
+    border: 1px solid #e3c68855;
+    border-radius: 16px;
+    background: #4a342bf5;
+    box-shadow: 0 12px 36px #0005;
+  }
+  .menu-fixed-wrapper .nav-links-list { gap: 4px; }
+  .menu-fixed-wrapper .nav-item-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 46px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    color: #f1e6dccc;
+    font: 500 14px/1.4 var(--sans);
+    transform: none;
+    transition: background .2s ease, color .2s ease;
+  }
+  .menu-fixed-wrapper .nav-item-link:is(:hover, :focus-visible, .current-active) {
+    color: #fff4da;
+    background: #e3c68824;
+    transform: none;
+  }
+  .menu-fixed-wrapper .nav-item-link.current-active { box-shadow: inset 3px 0 var(--gold); }
+  .menu-fixed-wrapper .nav-item-link:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
+}
+
+@media (max-height: 360px) and (orientation: landscape) {
+  .menu-fixed-wrapper.is-menu-open .bracket-micro-nav { width: min(280px, calc(100vw - 48px)); }
+  .menu-fixed-wrapper .nav-links-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tm-menu-icon i, .menu-fixed-wrapper .nav-item-link { transition: none; }
+}
+/* Bounded desktop sizing also covers native 3840 x 2160 TV viewports. */
+@media (min-width: 1025px) and (min-height: 601px) {
+  .tm-header { --header-edge: clamp(32px, 1.667vw, 64px); }
+  .menu-fixed-wrapper {
+    left: max(var(--header-edge), env(safe-area-inset-left));
+    max-height: calc(100 * var(--viewport-height) - 2 * var(--header-edge));
+  }
+  .bracket-micro-nav {
+    width: clamp(150px, 7.813vw, 224px);
+    max-height: inherit;
+    overflow-y: auto;
+    padding: clamp(24px, 1.25vw, 40px) clamp(16px, .834vw, 28px);
+  }
+  .nav-links-list { gap: clamp(20px, 1.042vw, 32px); }
+  .nav-item-link { font-size: clamp(17.6px, .917vw, 25px); overflow-wrap: break-word; }
+  .tm-header > .tm-brand:has(>img) { width: clamp(128px, 6.667vw, 192px); }
 }

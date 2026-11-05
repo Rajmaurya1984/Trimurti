@@ -48,7 +48,7 @@ export default function RotateDeviceOverlay() {
           <path d="M19 9h10M21 62h6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
         </svg>
         <h2 id="rotate-device-title">Rotate your device</h2>
-        <p id="rotate-device-description">For the best view of 67 Avenue,<br />please turn your phone to landscape.</p>
+        <p id="rotate-device-description">For the best view of Tirmuth,<br />please turn your phone to landscape.</p>
       </div>
     </dialog>
   )

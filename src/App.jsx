@@ -1,10 +1,12 @@
-﻿import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import BracketTransition from './components/site/BracketTransition.jsx'
 import SiteHeader from './components/site/SiteHeader.jsx'
 import Home from './pages/TirmuthHome.jsx'
 import Experience from './pages/Experience.jsx'
 import { PROJECT } from './data/project.js'
 import './styles/tirmuth.css'
+import './styles/mobile.css'
+import RotateDeviceOverlay from './components/ui/RotateDeviceOverlay.jsx'
 function Layout() { return <BracketTransition /> }
 function RouteError() { return <><SiteHeader /><main className="tm-placeholder"><h1>This view could not open.</h1><a href="/">Return home</a></main></> }
 const router = createBrowserRouter([{
@@ -19,7 +21,7 @@ const router = createBrowserRouter([{
     { path: '*', element: <Navigate to="/" replace /> },
   ],
 }])
-export default function App() { return <RouterProvider router={router} /> }
+export default function App() { return <><RouterProvider router={router} /><RotateDeviceOverlay /></> }
 
 
 

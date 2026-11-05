@@ -47,7 +47,6 @@ function FadeImage({ view, onComplete, reducedMotion }) {
   )
 }
 
-
 function WindowViewSession({ onClose, direction }) {
   const [selection, setSelection] = useState({ id: DEFAULT_VIEW_ID, time: 'day', revision: 0 })
   const [activeView, setActiveView] = useState(null)

@@ -1,4 +1,4 @@
-﻿import { FLAT_2_HOTSPOTS, FLAT_6_HOTSPOTS } from './tirmuthHotspots.js'
+import { FLAT_2_HOTSPOTS, FLAT_6_HOTSPOTS } from './tirmuthHotspots.js'
 // Positions use the original panorama's [x, y, z] coordinates.
 // Floor-plan cameraPosition uses { left, top } percentages of the full drawing.
 // now the issue is the image of master bedroom 1 and master bedroom2 
@@ -16,15 +16,15 @@ const definitions = [
 ]
 
 const mapPositions = {
-  2: { living: [10,38], passage: [40,50], kitchen: [49,61], bedroom: [65,78], 'master-bedroom': [17,81], 'master-toilet': [22,67], toilet: [59,90], study: [57,10] },
-  6: { living: [27,64], passage: [64,63], kitchen: [42,30], bedroom: [64,34], 'master-bedroom': [86,60], 'master-toilet': [59,77], toilet: [46,84] },
+  2: { living: [10,38], passage: [40,50], kitchen: [49,61], bedroom: [55,72], 'master-bedroom': [37,78], 'master-toilet': [25,65], toilet: [59,90], study: [47,8] },
+  6: { living: [17,85], passage: [35,60], kitchen: [42,50], bedroom: [56,48], 'master-bedroom': [76,60], 'master-toilet': [65,70], toilet: [46,74] },
 }
 // Flat 2 replacement renders use numbered names, including a space in M Bedroom_02.
 const FLAT_2_IMAGE_STEMS = {
-  bedroom: 'M Bedroom_02',
-  'master-bedroom': 'M_Bedroom_01',
-  'master-toilet': 'M_Toilet_01',
-  toilet: 'M_Toilet_02',
+  bedroom: 'M_Bedroom_01',
+  'master-bedroom': 'M Bedroom_02',
+  'master-toilet': 'M_Toilet_02',
+  toilet: 'M_Toilet_01',
 }
 
 const FLAT_2_ROOM_NAMES = {

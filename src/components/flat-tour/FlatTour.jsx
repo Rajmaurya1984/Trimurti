@@ -1,4 +1,4 @@
-﻿/* eslint-disable react-hooks/immutability -- Three.js objects are imperative GSAP animation targets. */
+/* eslint-disable react-hooks/immutability -- Three.js objects are imperative GSAP animation targets. */
 import gsap from 'gsap'
 import { TIRMUTH_FLATS, TIRMUTH_FLOOR_PLAN, TIRMUTH_DEFAULT_FOV, tirmuthRadarHeading } from '../../data/tirmuthFlats.js'
 import { createFlatTravelTimeline } from './flatTravelTimeline.js'
@@ -154,7 +154,7 @@ export default function FlatTour({ onClose, flatNumber = 2 }) {
   const dialog = useRef(null)
   const [pendingTravel, setPendingTravel] = useState(null)
   const [selected, setSelected] = useState(rooms[0])
-  const pointerTools = useRoomPointers(selected.id, rooms, 'tirmuth-flat-' + flat.number + '-room-pointers-v1')
+  const pointerTools = useRoomPointers(selected.id, rooms, 'tirmuth-flat-' + flat.number + (flat.number === 2 ? '-room-pointers-v2' : '-room-pointers-v1'))
   const [active, setActive] = useState(null)
   const [incoming, setIncoming] = useState(null)
   const [error, setError] = useState('')
@@ -168,7 +168,12 @@ export default function FlatTour({ onClose, flatNumber = 2 }) {
   const radarPosition = radarRoom.cameraPosition
   // Published owner-supplied coordinates take priority in the visitor tour.
   // Local drafts are visible while authoring, without silently overriding them.
-  const tourMarkers = placing ? pointerTools.markers : [
+  const previewDrafts = flat.number === 2 && pointerTools.markers.length > 0
+  const tourMarkers = previewDrafts ? [
+    ...hotspots.filter(marker => !pointerTools.markers.some(draft =>
+      marker.sourceScene === draft.sourceScene && marker.category === draft.category)),
+    ...pointerTools.markers,
+  ] : placing ? pointerTools.markers : [
     ...hotspots,
     ...pointerTools.markers.filter(draft => !hotspots.some(marker =>
       marker.sourceScene === draft.sourceScene && marker.category === draft.category)),
@@ -312,8 +317,8 @@ export default function FlatTour({ onClose, flatNumber = 2 }) {
             rotating={autoRotate && !!active && !busy && !placing}
             arrivalView={active?.preserveView ? undefined : rooms.find(room => room.id === (incoming ?? active)?.id)} />
         </Canvas>
-        <button type="button" className="flat-pointer-toggle" aria-pressed={placing}
-          onClick={() => setPlacing(value => !value)}>{placing ? 'Done placing markers' : 'Edit room markers'}</button>
+        {flat.number === 2 && <button type="button" className="flat-pointer-toggle" aria-pressed={placing}
+          onClick={() => setPlacing(value => !value)}>{placing ? 'Done placing markers' : 'Edit room markers'}</button>}
         {placing && <RoomPointerPanel tools={pointerTools} name={selected.name} />}
         <div className="flat-tour__caption"><h3>{active?.name ?? selected.name}</h3></div>
         {/* {busy && <div className="flat-tour__status" role="status">Loading {selected.name}...</div>} */}

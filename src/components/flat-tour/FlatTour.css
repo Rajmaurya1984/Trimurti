@@ -931,3 +931,23 @@
     width: 180px;
   }
 }
+
+/* Keep Flat 2 authoring controls clear of the site and room menus. */
+.flat-tour[data-flat-number="2"] .flat-pointer-toggle {
+  left: auto;
+  right: max(24px, env(safe-area-inset-right));
+  top: 140px;
+  z-index: 1202;
+}
+.flat-tour[data-flat-number="2"] .flat-pointer-tools {
+  left: auto;
+  right: max(24px, env(safe-area-inset-right));
+  top: 184px;
+  width: min(280px, calc(100vw - 48px));
+  max-height: calc(100 * var(--viewport-height) - 204px);
+  z-index: 1202;
+}
+@media (max-height: 600px) {
+  .flat-tour[data-flat-number="2"] .flat-pointer-toggle { top: 88px; }
+  .flat-tour[data-flat-number="2"] .flat-pointer-tools { top: 130px; max-height: calc(100 * var(--viewport-height) - 146px); }
+}
