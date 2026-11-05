@@ -4,7 +4,7 @@ import { FLAT_2_HOTSPOTS, FLAT_6_HOTSPOTS } from './tirmuthHotspots.js'
 // now the issue is the image of master bedroom 1 and master bedroom2 
 // Initial room centers are estimated from the supplied drawing; refine with authored pointers.
 export const TIRMUTH_FLOOR_PLAN = '/flat/10THFLOORPLAN.png'
-export const TIRMUTH_DEFAULT_FOV = 72
+export const TIRMUTH_DEFAULT_FOV = 95
 const definitions = [
   ['living', 'Living Room', 'Living Room'],
   ['passage', 'Living Passage', 'Living Passage'],
