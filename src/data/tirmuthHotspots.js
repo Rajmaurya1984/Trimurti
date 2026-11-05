@@ -228,18 +228,18 @@ export const FLAT_2_HOTSPOTS = [
       -35.923
     ]
   },
-  {
-    "id": "master-bedroom-to-toilet",
-    "sourceScene": "master-bedroom",
-    "title": "Master Toilet 2",
-    "category": "toilet",
-    "description": "",
-    "position": [
-      -9.209,
-      -0.407,
-      -49.104
-    ]
-  },
+  // {
+  //   "id": "master-bedroom-to-toilet",
+  //   "sourceScene": "master-bedroom",
+  //   "title": "Master Toilet 2",
+  //   "category": "toilet",
+  //   "description": "",
+  //   "position": [
+  //     -9.209,
+  //     -0.407,
+  //     -49.104
+  //   ]
+  // },
   {
     "id": "bedroom-to-toilet",
     "sourceScene": "bedroom",

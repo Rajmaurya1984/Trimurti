@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/immutability -- Three.js objects are imperative GSAP animation targets. */
+﻿/* eslint-disable react-hooks/immutability -- Three.js objects are imperative GSAP animation targets. */
 import gsap from 'gsap'
 import { TIRMUTH_FLATS, TIRMUTH_FLOOR_PLAN, TIRMUTH_DEFAULT_FOV, tirmuthRadarHeading } from '../../data/tirmuthFlats.js'
 import { createFlatTravelTimeline } from './flatTravelTimeline.js'
@@ -317,9 +317,7 @@ export default function FlatTour({ onClose, flatNumber = 2 }) {
             rotating={autoRotate && !!active && !busy && !placing}
             arrivalView={active?.preserveView ? undefined : rooms.find(room => room.id === (incoming ?? active)?.id)} />
         </Canvas>
-        {flat.number === 2 && <button type="button" className="flat-pointer-toggle" aria-pressed={placing}
-          onClick={() => setPlacing(value => !value)}>{placing ? 'Done placing markers' : 'Edit room markers'}</button>}
-        {placing && <RoomPointerPanel tools={pointerTools} name={selected.name} />}
+        
         <div className="flat-tour__caption"><h3>{active?.name ?? selected.name}</h3></div>
         {/* {busy && <div className="flat-tour__status" role="status">Loading {selected.name}...</div>} */}
         {error && <div className="flat-tour__status" role="alert">{error} <button type="button" onClick={() => setRetry(value => value + 1)}>Retry</button></div>}
