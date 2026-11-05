@@ -9,7 +9,7 @@ import '../components/window-view/TourSceneMenu.css'
 import './InteriorAmenities.css'
 
 
-
+//testing
 const AmenityPanorama = lazy(() => import('../components/amenity-tour/AmenityPanorama.jsx'))
 const HOTSPOTS = []
 const warmScene = (scene) => {
