@@ -68,9 +68,9 @@ export const LOCATION_POINTERS = [
   },
   {
     "id": "d9c62db5-df95-4d45-bfec-0ece22c119b2",
-    "title": "Vedant International High School And Junior College",
+    "title": "Vedant International High School And Junior College 10 min",
     "category": "schools",
-    "description": "Vedant International High School And Junior College",
+    "description": "Vedant International High School And Junior College 10 min",
     "position": [
       21.939,
       0.052,
@@ -90,9 +90,9 @@ export const LOCATION_POINTERS = [
   },
   {
     "id": "639c9d20-9ad5-4375-a34a-8b81dd49b1df",
-    "title": "Royal College of Arts, Science and Commerce.",
+    "title": "St Xavier's High School 5mins",
     "category": "schools",
-    "description": "Royal College of Arts, Science and Commerce.",
+    "description": "St Xavier's High School 5mins",
     "position": [
       -36.654,
       -2.678,
@@ -100,25 +100,23 @@ export const LOCATION_POINTERS = [
     ]
   },
   {
-    "id": "40b306d5-9d72-4987-ab6a-89711f50d22c",
-    "title": "Holy Cross Convent School",
+    "title": "N. L. Dalmia High School 8min",
     "category": "schools",
-    "description": "Holy Cross Convent School",
+    "description": "N. L. Dalmia High School",
     "position": [
-      22.151,
-      -11.406,
-      -42.193
+      -26.39,
+      0,
+      42.4
     ]
   },
   {
-    "id": "7527b148-46d2-4067-b978-ae03e419fc46",
-    "title": "Mount Carmel School",
+    "title": "A.P. International School 10Mins",
     "category": "schools",
-    "description": "Mount Carmel School",
+    "description": "A.P. International School",
     "position": [
-      15.031,
-      -9.87,
-      -45.581
+      -13.34,
+      -1.94,
+      48.06
     ]
   },
   {
@@ -143,7 +141,36 @@ export const LOCATION_POINTERS = [
       -39.799
     ]
   },
-
+   {
+    "title": " Bhaktivedanta Hospital 12mins",
+    "category": "hospitals",
+    "description": " Bhaktivedanta Hospital 12mins",
+    "position": [
+      -30.83,
+      -0.75,
+      39.27
+    ]
+  },
+  {
+    "title": "Thunga Hospital 12mins",
+    "category": "hospitals",
+    "description": "Thunga Hospital 12mins",
+    "position": [
+      26.64,
+      -1.88,
+      -42.17
+    ]
+  },
+  {
+    "title": " Maxus Mall 10mins",
+    "category": "lifestyle",
+    "description": " Maxus Mall 10mins",
+    "position": [
+      -11.37,
+      -2.57,
+      -48.53
+    ]
+  },
   {
     "id": "4044860e-39ed-4001-a831-f5b352b3dbd6",
     "title": "Brand Factory 7min",

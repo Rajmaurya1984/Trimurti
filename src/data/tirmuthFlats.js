@@ -1,10 +1,10 @@
-import { FLAT_2_HOTSPOTS, FLAT_6_HOTSPOTS } from './tirmuthHotspots.js'
+﻿import { FLAT_2_HOTSPOTS, FLAT_6_HOTSPOTS } from './tirmuthHotspots.js'
 // Positions use the original panorama's [x, y, z] coordinates.
 // Floor-plan cameraPosition uses { left, top } percentages of the full drawing.
 // now the issue is the image of master bedroom 1 and master bedroom2 
 // Initial room centers are estimated from the supplied drawing; refine with authored pointers.
 export const TIRMUTH_FLOOR_PLAN = '/flat/10THFLOORPLAN.png'
-export const TIRMUTH_DEFAULT_FOV = 95
+export const TIRMUTH_DEFAULT_FOV = 72
 const definitions = [
   ['living', 'Living Room', 'Living Room'],
   ['passage', 'Living Passage', 'Living Passage'],
@@ -21,10 +21,10 @@ const mapPositions = {
 }
 // Flat 2 replacement renders use numbered names, including a space in M Bedroom_02.
 const FLAT_2_IMAGE_STEMS = {
-  bedroom: 'M_Bedroom_01',
-  'master-bedroom': 'M Bedroom_02',
-  'master-toilet': 'M_Toilet_02',
-  toilet: 'M_Toilet_01',
+  bedroom: 'M Bedroom_02',
+  'master-bedroom': 'M_Bedroom_01',
+  'master-toilet': 'M_Toilet_01',
+  toilet: 'M_Toilet_02',
 }
 
 const FLAT_2_ROOM_NAMES = {
