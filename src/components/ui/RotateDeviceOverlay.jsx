@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 
 export default function RotateDeviceOverlay() {
   const dialogRef = useRef(null)
+  const dismissed = useRef(false)
 
   useEffect(() => {
     const portrait = window.matchMedia('(orientation: portrait)')
@@ -9,7 +10,7 @@ export default function RotateDeviceOverlay() {
     const dialog = dialogRef.current
     let frame = 0
     const syncOrientation = () => {
-      const mustRotate = phone.matches && portrait.matches
+      const mustRotate = !dismissed.current && phone.matches && portrait.matches
       if (mustRotate && !dialog.open) dialog.showModal()
       if (!mustRotate && dialog.open) dialog.close()
     }
@@ -25,7 +26,12 @@ export default function RotateDeviceOverlay() {
     window.addEventListener('pageshow', scheduleSync)
     window.visualViewport?.addEventListener('resize', scheduleSync)
     window.screen.orientation?.addEventListener('change', scheduleSync)
-    return () => {
+    function continueInPortrait() {
+    dismissed.current = true
+    dialogRef.current.close()
+  }
+
+  return () => {
       cancelAnimationFrame(frame)
       portrait.removeEventListener('change', scheduleSync)
       phone.removeEventListener('change', scheduleSync)
@@ -38,6 +44,11 @@ export default function RotateDeviceOverlay() {
     }
   }, [])
 
+  function continueInPortrait() {
+    dismissed.current = true
+    dialogRef.current.close()
+  }
+
   return (
     <dialog ref={dialogRef} className="rotate-device-overlay"
       aria-labelledby="rotate-device-title" aria-describedby="rotate-device-description"
@@ -48,7 +59,8 @@ export default function RotateDeviceOverlay() {
           <path d="M19 9h10M21 62h6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
         </svg>
         <h2 id="rotate-device-title">Rotate your device</h2>
-        <p id="rotate-device-description">For the best view of Tirmuth,<br />please turn your phone to landscape.</p>
+        <p id="rotate-device-description">For the best view of Trimurti,<br />please turn your phone to landscape.</p>
+        <button type="button" className="rotate-continue" onClick={continueInPortrait}>Continue in portrait</button>
       </div>
     </dialog>
   )
