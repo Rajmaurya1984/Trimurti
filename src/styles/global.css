@@ -10,8 +10,40 @@
   }
 }
 
+.rotate-device-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: calc(100 * var(--viewport-height));
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  border: 0;
+  padding: 24px;
+  background: #1e1a16;
+  color: #fff;
+  text-align: center;
+  z-index: 100100;
+}
+
+.rotate-device-overlay::backdrop { background: #1e1a16; }
+.rotate-device-overlay[open] { display: flex; justify-content: center; align-items: center; }
+.rotate-content h2 { margin: 16px 0 8px; font-size: 18px; font-weight: 600; color: #f7f4f0; }
+.rotate-content p { margin: 0; font-size: 13px; line-height: 1.5; color: #a3978e; }
+.phone-icon { color: #c1aa90; animation: spinPhone 2.5s ease-in-out infinite; }
+
+@keyframes spinPhone {
+  0%, 10%, 90%, 100% { transform: rotate(0deg); }
+  40%, 60% { transform: rotate(-90deg); }
+}
+
 @media (max-width: 767px) and (orientation: portrait), (max-width: 1024px) and (orientation: portrait) and (any-pointer: coarse) {
   body { overflow: hidden; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phone-icon { animation: none; transform: rotate(-90deg); }
 }
 
 *,
