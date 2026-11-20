@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useRef, useState } from 'react'
+﻿import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import SiteHeader from '../components/site/SiteHeader.jsx'
 import NavIcon from '../components/site/NavIcon.jsx'
@@ -9,7 +9,6 @@ import '../components/window-view/TourSceneMenu.css'
 import './InteriorAmenities.css'
 
 
-//testing
 const AmenityPanorama = lazy(() => import('../components/amenity-tour/AmenityPanorama.jsx'))
 const HOTSPOTS = []
 const warmScene = (scene) => {
@@ -17,7 +16,7 @@ const warmScene = (scene) => {
     .then(({ loadWindowTexture }) => loadWindowTexture(scene.image)).catch(() => {})
 }
 
-const RADAR_STORAGE_KEY = 'tirmuth-amenity-radar-offsets-v1'
+const RADAR_STORAGE_KEY = 'tirmuth-amenity-radar-offsets-v2'
 function readRadarOffsets() {
   try {
     const saved = JSON.parse(localStorage.getItem(RADAR_STORAGE_KEY) ?? '{}')
@@ -64,7 +63,6 @@ export default function Amenities() {
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [navigate])
-  
   return (
     <main className="editorial-page amenities-page interior-amenities-page" aria-label="Tirmuth amenities">
       <SiteHeader/>
