@@ -9,7 +9,7 @@ export const PROJECT = {
 export const NAV_MENU = [
   { label: 'Home', to: '/' },
   { label: 'Location', to: '/location' },
-  { label: 'Flat/Window', to: '/flat' },
+  { label: 'Flat / Window', to: '/flat' },
   { label: 'Amenities', to: '/amenities' },
 ]
 

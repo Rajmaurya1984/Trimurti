@@ -26,8 +26,8 @@ function readRadarOffsets() {
 }
 const normalizeHeading = angle => ((angle + 180) % 360 + 360) % 360 - 180
 export default function Amenities() {
-  const [selectedId, setSelectedId] = useState(TIRMUTH_AMENITY_SCENES[0].id)
-  const scene = TIRMUTH_AMENITY_SCENES.find(item => item.id === selectedId)
+  const [scene, setScene] = useState(TIRMUTH_AMENITY_SCENES[0])
+  const selectedId = scene.id
   const navigate = useNavigate()
   const coneRef = useRef(null)
   const positionRef = useRef(null)
@@ -36,12 +36,20 @@ export default function Amenities() {
   const [aligning, setAligning] = useState(false)
   const [radarNotice, setRadarNotice] = useState('')
 
+  function selectAmenity(id) {
+    const destination = TIRMUTH_AMENITY_SCENES.find(item => item.id === id)
+    if (!destination) return
+    setScene({ ...destination })
+    setRadarNotice('')
+  }
+
   function saveRadarOffset(id, angle) {
     const next = { ...radarOffsets, [id]: normalizeHeading(angle) }
     setRadarOffsets(next)
     try { localStorage.setItem(RADAR_STORAGE_KEY, JSON.stringify(next)); setRadarNotice('Direction saved for this scene.') }
     catch { setRadarNotice('Direction updated. Browser storage is unavailable, so this alignment lasts for this visit.') }
   }
+
   function alignDirection(event) {
     const current = headingRef.current
     if (!current || current.sceneId !== selectedId) {
@@ -67,7 +75,7 @@ export default function Amenities() {
     <main className="editorial-page amenities-page interior-amenities-page" aria-label="Tirmuth amenities">
       <SiteHeader/>
       <Suspense fallback={<p className="interior-amenities__loading" role="status">Opening amenities…</p>}>
-        <AmenityPanorama scene={scene} scenes={TIRMUTH_AMENITY_SCENES} hotspots={HOTSPOTS} onNavigate={setSelectedId} radar={{ coneRef, positionRef, headingRef, offsets: radarOffsets }} />
+        <AmenityPanorama scene={scene} scenes={TIRMUTH_AMENITY_SCENES} hotspots={HOTSPOTS} onNavigate={selectAmenity} radar={{ coneRef, positionRef, headingRef, offsets: radarOffsets }} />
       </Suspense>
       <aside className="amenities-plan" aria-label="Amenities floor plan">
         <div className="amenities-plan__drawing">
@@ -80,10 +88,10 @@ export default function Amenities() {
             style={{ left: item.cameraPosition.left + '%', top: item.cameraPosition.top + '%' }}
             aria-label={'Explore ' + item.name} aria-pressed={selectedId === item.id} title={item.name}
             onPointerEnter={() => warmScene(item)} onFocus={() => warmScene(item)}
-            onClick={() => { setSelectedId(item.id); setRadarNotice('') }} />)}
+            onClick={() => selectAmenity(item.id)} />)}
           {aligning && <button type="button" className="amenities-plan__align-target" aria-label="Click the feature you are facing to align the radar" onClick={alignDirection} />}
         </div>
-        {/* <button type="button" className="amenities-plan__align-toggle" aria-pressed={aligning}
+        {/* <button type="button" className="amenities-plan__align-toggle" aria-pressed={
           onClick={() => { setAligning(value => !value); setRadarNotice('') }}>{aligning ? 'Done aligning' : 'Align direction'}</button> */}
         {aligning && <div className="amenities-plan__alignment">
           <p>Face a known feature, then click its position on the plan.</p>
@@ -102,7 +110,7 @@ export default function Amenities() {
               className={'stack-item' + (item.id === selectedId ? ' active' : '')}
               aria-pressed={item.id === selectedId}
               onPointerEnter={() => warmScene(item)} onFocus={() => warmScene(item)}
-              onClick={() => setSelectedId(item.id)}>
+              onClick={() => selectAmenity(item.id)}>
               <span className="stack-item__number" aria-hidden="true">{index + 1}</span>
               <span className="stack-item__label">{item.name}</span>
             </button>

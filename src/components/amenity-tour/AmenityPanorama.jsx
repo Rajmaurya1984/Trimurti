@@ -45,13 +45,45 @@ function PanoramaLayer({ view, fade = false, reducedMotion, onComplete, onPlace,
   const camera = useThree(state => state.camera)
   useLayoutEffect(() => { gl.initTexture(view.texture) }, [gl, view.texture])
   const materialRef = useRef(null)
+  const size = useThree(state => state.size)
   const [zoomUniform] = useState(() => ({ value: 1 }))
+  const [arrivalCamera] = useState(() => new THREE.PerspectiveCamera())
+  const useArrivalCamera = fade && view.arrivalImmediate
+  useLayoutEffect(() => {
+    if (!useArrivalCamera) return
+    const yaw = view.arrivalU * Math.PI * 2
+    const pitch = THREE.MathUtils.degToRad(view.arrivalPitch ?? 0)
+    arrivalCamera.position.set(
+      -Math.cos(yaw) * Math.cos(pitch),
+      -Math.sin(pitch),
+      -Math.sin(yaw) * Math.cos(pitch),
+    ).multiplyScalar(camera.position.length())
+    arrivalCamera.lookAt(0, 0, 0)
+    arrivalCamera.updateMatrixWorld()
+    arrivalCamera.fov = THREE.MathUtils.clamp(view.arrivalFov ?? 72, 35, 95)
+    arrivalCamera.aspect = size.width / Math.max(1, size.height)
+    arrivalCamera.near = camera.near
+    arrivalCamera.far = camera.far
+    arrivalCamera.updateProjectionMatrix()
+  }, [arrivalCamera, camera, size.width, size.height, useArrivalCamera, view])
+
   const compileZoom = useCallback(shader => {
+    // The outgoing view keeps its camera while the incoming image fades in at its final framing.
+    if (useArrivalCamera) {
+      shader.uniforms.arrivalViewMatrix = { value: arrivalCamera.matrixWorldInverse }
+      shader.uniforms.arrivalProjectionMatrix = { value: arrivalCamera.projectionMatrix }
+      shader.vertexShader = 'uniform mat4 arrivalViewMatrix;\nuniform mat4 arrivalProjectionMatrix;\n'
+        + shader.vertexShader.replace('#include <project_vertex>', [
+          'vec4 mvPosition = arrivalViewMatrix * modelMatrix * vec4(transformed, 1.0);',
+          'gl_Position = arrivalProjectionMatrix * mvPosition;',
+        ].join('\n'))
+      return
+    }
     shader.uniforms.roomZoom = zoomUniform
     shader.vertexShader = 'uniform float roomZoom;\n' + shader.vertexShader.replace(
       '#include <project_vertex>', '#include <project_vertex>\ngl_Position.xy *= roomZoom;',
     )
-  }, [zoomUniform])
+  }, [arrivalCamera, useArrivalCamera, zoomUniform])
   useFrame(() => {
     const lens = zoomMotion.current
     zoomUniform.value = !fade && lens.fov !== null
@@ -81,7 +113,7 @@ function PanoramaLayer({ view, fade = false, reducedMotion, onComplete, onPlace,
       } : undefined}>
       <sphereGeometry args={[50, 64, 40]} />
       <meshBasicMaterial ref={materialRef} map={view.texture} side={THREE.DoubleSide}
-        onBeforeCompile={compileZoom}
+        onBeforeCompile={compileZoom} customProgramCacheKey={() => useArrivalCamera ? "amenity-arrival" : "amenity-zoom"}
         transparent={fade} opacity={fade ? 0 : 1} depthTest={!fade} depthWrite={!fade} />
     </mesh>
     </group>
@@ -126,6 +158,15 @@ export default function AmenityPanorama({ scene, onNavigate, placementMode = fal
 
   }, [drafts])
 
+  const complete = useCallback((view) => {
+    const settled = view.arrivalImmediate && view.travel
+      ? { ...view, travel: false }
+      : view
+    activeRef.current = settled
+    setActive(settled)
+    setIncoming((current) => current?.token === view.token ? null : current)
+  }, [])
+
   useEffect(() => {
     let cancelled = false
     const token = {}
@@ -136,9 +177,14 @@ export default function AmenityPanorama({ scene, onNavigate, placementMode = fal
           ?? await loadWindowTexture(scene.image)
         if (cancelled) return
         const source = activeRef.current
+        if (scene.arrivalImmediate && (!source || source.id === scene.id)) {
+          setIncoming(null)
+          complete({ ...scene, texture, token })
+          return
+        }
         const camera = canvasRef.current?.().camera
         let arrival = scene
-        if (source && camera && source.id !== scene.id) {
+        if (!scene.arrivalImmediate && source && camera && source.id !== scene.id) {
           const direction = camera.getWorldDirection(new THREE.Vector3())
           // Travel coordinates belong to the source panorama's native axes.
           direction.applyQuaternion((source.rotation ?? LEVEL_ROTATION).clone().invert())
@@ -150,20 +196,20 @@ export default function AmenityPanorama({ scene, onNavigate, placementMode = fal
         // Align headings around the vertical axis only. Including camera pitch
         // in the sphere rotation tilts the horizon and accumulates across visits.
         let rotation
-        if (source && camera) {
+        if (!scene.arrivalImmediate && source && camera) {
           const angle = arrival.arrivalU * Math.PI * 2
           const direction = camera.getWorldDirection(new THREE.Vector3())
           const heading = Math.atan2(direction.z, direction.x)
           rotation = new THREE.Quaternion().setFromAxisAngle(THREE.Object3D.DEFAULT_UP, angle - heading)
         }
-        setIncoming({ ...arrival, arrivalPitch: 0, rotation, travel: !!source, texture, token })
+        setIncoming({ ...arrival, arrivalPitch: arrival.arrivalPitch ?? 0, rotation, travel: !!source, texture, token })
       } catch {
         if (!cancelled) setError('This view could not be opened. Please try again.')
       }
     }
     const frame = requestAnimationFrame(() => { void load() })
     return () => { cancelled = true; cancelAnimationFrame(frame) }
-  }, [scene, retry, hotspots])
+  }, [scene, retry, hotspots, complete])
 
   const busy = active?.id !== scene.id || !!incoming
   const categories = scenes.filter((item) => item.id !== scene.id)
@@ -200,11 +246,6 @@ export default function AmenityPanorama({ scene, onNavigate, placementMode = fal
       setDraftMessage('Clipboard unavailable. Select and copy the JSON below.')
     }
   }
-  const complete = useCallback((view) => {
-    activeRef.current = view
-    setActive(view)
-    setIncoming((current) => current?.token === view.token ? null : current)
-  }, [])
 
   return (
     <section className="amenity-panorama" aria-label={`360 view: ${active?.name ?? scene.name}`}>
